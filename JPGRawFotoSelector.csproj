@@ -50,6 +50,10 @@
     <ApplicationIcon>branding.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\JetBrains.Annotations.6.1\lib\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -83,6 +87,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -115,6 +120,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="packages\NullCheckAnalyzer.1.0.0.3\tools\analyzers\NullCheckAnalyzer.dll" />
+    <Analyzer Include="packages\RefactoringEssentials.3.0.0\analyzers\dotnet\RefactoringEssentials.dll" />
+    <Analyzer Include="packages\ResharperCodeContractNullability.1.0.4\analyzers\dotnet\cs\CodeContractNullability.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

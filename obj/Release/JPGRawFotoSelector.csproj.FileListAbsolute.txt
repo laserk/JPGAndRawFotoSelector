@@ -1,0 +1,33 @@
+d:\我的资料库\Documents\Visual Studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.exe.config
+d:\我的资料库\Documents\Visual Studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.exe
+d:\我的资料库\Documents\Visual Studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.pdb
+d:\我的资料库\Documents\Visual Studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.Form1.resources
+d:\我的资料库\Documents\Visual Studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.Properties.Resources.resources
+d:\我的资料库\Documents\Visual Studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.csproj.GenerateResource.Cache
+d:\我的资料库\Documents\Visual Studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.exe
+d:\我的资料库\Documents\Visual Studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.pdb
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.exe.config
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.exe
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.pdb
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.csprojResolveAssemblyReference.cache
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.Form1.resources
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.Properties.Resources.resources
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.csproj.GenerateResource.Cache
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.exe
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.pdb
+G:\work\DotNet\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.exe.config
+G:\work\DotNet\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.exe
+G:\work\DotNet\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.pdb
+G:\work\DotNet\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.exe
+G:\work\DotNet\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.pdb
+G:\work\DotNet\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.Form1.resources
+G:\work\DotNet\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.Properties.Resources.resources
+G:\work\DotNet\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.csproj.GenerateResource.Cache
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.exe.config
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.exe
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.pdb
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.exe
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Release\JPGRawFotoSelector.pdb
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.Form1.resources
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.Properties.Resources.resources
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Release\JPGRawFotoSelector.csproj.GenerateResource.Cache

@@ -1,0 +1,31 @@
+d:\我的资料库\documents\visual studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Debug\JPGRawFotoSelector.exe.config
+d:\我的资料库\documents\visual studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Debug\JPGRawFotoSelector.exe
+d:\我的资料库\documents\visual studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Debug\JPGRawFotoSelector.pdb
+d:\我的资料库\documents\visual studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.csprojResolveAssemblyReference.cache
+d:\我的资料库\documents\visual studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.Form1.resources
+d:\我的资料库\documents\visual studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.Properties.Resources.resources
+d:\我的资料库\documents\visual studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.csproj.GenerateResource.Cache
+d:\我的资料库\documents\visual studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.exe
+d:\我的资料库\documents\visual studio 2013\Projects\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.pdb
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Debug\JPGRawFotoSelector.exe.config
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.exe
+C:\Users\LKang\Desktop\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.pdb
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Debug\JPGRawFotoSelector.exe.config
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.exe
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.pdb
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Debug\JPGRawFotoSelector.exe
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\bin\Debug\JPGRawFotoSelector.pdb
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.Form1.resources
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.Properties.Resources.resources
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\JPGRawFotoSelector\obj\Debug\JPGRawFotoSelector.csproj.GenerateResource.Cache
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\bin\Debug\JPGRawFotoSelector.exe.config
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\obj\Debug\JPGRawFotoSelector.exe
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\obj\Debug\JPGRawFotoSelector.pdb
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\bin\Debug\JPGRawFotoSelector.exe
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\bin\Debug\JPGRawFotoSelector.pdb
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\obj\Debug\JPGRawFotoSelector.csprojResolveAssemblyReference.cache
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\obj\Debug\JPGRawFotoSelector.Properties.Resources.resources
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\obj\Debug\JPGRawFotoSelector.csproj.GenerateResource.Cache
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\bin\Debug\JetBrains.Annotations.dll
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\bin\Debug\JetBrains.Annotations.xml
+G:\work\GitRepository\GitHub\JPGAndRawFotoSelector\obj\Debug\JPGRawFotoSelector.FotoSelectorMainWindow.resources

@@ -8,19 +8,19 @@ using JPGRawFotoSelector.Properties;
 
 namespace JPGRawFotoSelector
 {
-    public partial class Form1 : Form
+    public partial class FotoSelectorMainWindow : Form
     {
-        private string m_Path;
+        string _path;
         enum enumCamera
         { 
             Sony,
             Canon
         }
-        private const string strDefaultFileList = "Select Files To Delete";
-        public Form1()
+        const string strDefaultFileList = "Select Files To Delete";
+        public FotoSelectorMainWindow()
         {
             InitializeComponent();
-            //m_Path = Util.GetFullPath("JPGRawFotoSelector");
+            //_path = Util.GetFullPath("JPGRawFotoSelector");
             InitialCameraList();
             InitialFileListLabel();
         }
@@ -38,37 +38,42 @@ namespace JPGRawFotoSelector
             cobCamera.SelectedIndex = 0;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        void button1_Click(object sender, EventArgs e)
         {
             folderBrowserDialog1.SelectedPath = Application.StartupPath;
-            if(folderBrowserDialog1.ShowDialog()==DialogResult.Cancel)
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             textPath.Text = folderBrowserDialog1.SelectedPath;
+            _path = folderBrowserDialog1.SelectedPath;
+            if (!StartDetecteFiles()) return;
+            lblFileList.Text = "Total:" + FileCleanList.Items.Count + " files to Select";
+        }
+
+        bool StartDetecteFiles()
+        {
+            if(string.IsNullOrEmpty(_path))
+                return false;
             string strJpg = textBoxJPG.Text.Trim();
             string strRaw = textBoxRAW.Text.Trim();
-            m_Path = folderBrowserDialog1.SelectedPath;
             InitialFileListLabel();
             FileCleanList.Items.Clear();
             try
             {
-                var fileListJpg = Directory.EnumerateFiles(m_Path, "*." + strJpg, SearchOption.TopDirectoryOnly);
+                var fileListJpg = Directory.EnumerateFiles(_path, "*." + strJpg, SearchOption.TopDirectoryOnly);
 
-                var fileListRaw = Directory.EnumerateFiles(m_Path, "*." + strRaw, SearchOption.TopDirectoryOnly);
+                var fileListRaw = Directory.EnumerateFiles(_path, "*." + strRaw, SearchOption.TopDirectoryOnly);
 
                 if (checkBaseOnJPG.Checked)
-                    FillListBaseOnJPG(strJpg, strRaw, fileListJpg, fileListRaw);
+                    FillListBaseOnReference(strJpg, strRaw, fileListJpg, fileListRaw);
                 else
-                    FillListBaseOnRAW(strJpg, strRaw, fileListJpg, fileListRaw);
-                
+                    FillListBaseOnReference(strRaw,strJpg , fileListRaw, fileListJpg);
             }
             catch (Exception exception)
             {
                 SetErrorMessage(exception);
-                return;
+                return false;
             }
-
-
-            lblFileList.Text = "Total:"+FileCleanList.Items.Count+" files to Select";
+            return true;
         }
 
         private void SetErrorMessage(Exception exception)
@@ -77,42 +82,41 @@ namespace JPGRawFotoSelector
             lblFileList.ForeColor = Color.Red;
         }
 
-        private void FillListBaseOnRAW(string strJPG, string strRAW, IEnumerable<string> fileListJPG, IEnumerable<string> fileListRAW)
+        void FillListBaseOnReference(string referenceSuffix, string targetSuffix, IEnumerable<string> referenceList,
+            IEnumerable<string> targetList)
         {
-            foreach (var file in fileListJPG)
-            {
-                string fileRAW = file.Replace(strJPG, strRAW);
-                if (!fileListRAW.Contains(fileRAW))
+            var query = targetList
+                .Where(f => !referenceList.Contains(f.Replace(targetSuffix, referenceSuffix)));
+            if (query.Any())
+                foreach (var file in query)
+                {
                     FileCleanList.Items.Add(file);
-            }
+                }
+            // no LINQ version
+        //foreach (var file in targetList)
+            //{
+            //    string fileJPG = file.Replace(targetSuffix, referenceSuffix);
+            //    if (!referenceList.Contains(fileJPG))
+            //        FileCleanList.Items.Add(file);
+            //}
         }
 
-        private void FillListBaseOnJPG(string strJPG, string strRAW, IEnumerable<string> fileListJPG, IEnumerable<string> fileListRAW)
+        void button2_Click(object sender, EventArgs e)
         {
-            foreach (var file in fileListRAW)
-            {
-                string fileJPG = file.Replace(strRAW, strJPG);
-                if (!fileListJPG.Contains(fileJPG))
-                    FileCleanList.Items.Add(file);
-            }
-        }
-        
-        private void button2_Click(object sender, EventArgs e)
-        {
-            IList<string> removeList = new List<string>();
-            string destPath=m_Path+"\\Remove\\";
+            var removeList = new List<string>();
+            string destPath = _path + "\\Remove\\";
             CheckDeleteFolder(destPath);
             int totalRemove = FileCleanList.SelectedItems.Count;
-            
-            foreach(var file in FileCleanList.SelectedItems)
+
+            foreach (var file in FileCleanList.SelectedItems)
             {
-                string sourcePath=file.ToString();
+                string sourcePath = file.ToString();
                 if (File.Exists(sourcePath))
                 {
-                    var finfo =new  FileInfo(sourcePath);
+                    var fInfo = new FileInfo(sourcePath);
                     try
                     {
-                        File.Move(sourcePath, destPath + finfo.Name);
+                        File.Move(sourcePath, destPath + fInfo.Name);
                         removeList.Add(sourcePath);
                     }
                     catch (Exception exception)
@@ -128,14 +132,14 @@ namespace JPGRawFotoSelector
             lblFileList.ForeColor = Color.Blue;
         }
 
-        private static void CheckDeleteFolder(string destPath)
+        static void CheckDeleteFolder(string destPath)
         {
             if (!Directory.Exists(destPath))
                 Directory.CreateDirectory(destPath);
         }
 
 
-        private void FillFileTextBoxes()
+        void FillFileTextBoxes()
         {
             if (cobCamera.SelectedItem.ToString() == enumCamera.Sony.ToString())
             {
@@ -149,10 +153,16 @@ namespace JPGRawFotoSelector
             }
         }
 
-        private void cobCamera_SelectedIndexChanged_1(object sender, EventArgs e)
+        void cobCamera_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             FillFileTextBoxes();
+            StartDetecteFiles();
         }
-  
+
+        private void checkBaseOnJPG_CheckedChanged(object sender, EventArgs e)
+        {
+            FillFileTextBoxes();
+            StartDetecteFiles();
+        }
     }
 }
