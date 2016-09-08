@@ -15,7 +15,7 @@ namespace JPGRawFotoSelector
     {
         public static Process StartProcessSilent(string file, string arguments)
         {
-            ProcessStartInfo info = new ProcessStartInfo(file)
+            var info = new ProcessStartInfo(file)
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,
@@ -28,7 +28,7 @@ namespace JPGRawFotoSelector
         {
             if (content == null)
                 content = string.Empty;
-            Regex regex = new Regex(expression,
+            var regex = new Regex(expression,
                 RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant);
             return regex.Match(content);
         }
