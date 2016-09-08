@@ -158,5 +158,33 @@ namespace JPGRawFotoSelector
             FillFileTextBoxes();
             StartDetecteFiles();
         }
+
+        private void FileCleanList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (FileCleanList.SelectedItems.Count > 0)
+                openJpgFile(FileCleanList.SelectedItems[0].ToString());
+        }
+
+        private void openJpgFile(string filePathName)
+        {
+            if (!filePathName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) && !filePathName.EndsWith(".jpge", StringComparison.OrdinalIgnoreCase))
+                return;
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+
+     
+            process.StartInfo.FileName = filePathName;
+
+
+            process.StartInfo.Arguments = "rundl132.exe C://WINDOWS//system32//shimgvw.dll,ImageView_Fullscreen";
+
+
+            process.StartInfo.UseShellExecute = true;
+
+            process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            process.Start();
+            process.Close();
+
+        }
+
     }
 }

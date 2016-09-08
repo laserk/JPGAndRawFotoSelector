@@ -77,6 +77,7 @@
             this.FileCleanList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.FileCleanList.Size = new System.Drawing.Size(764, 649);
             this.FileCleanList.TabIndex = 3;
+            this.FileCleanList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FileCleanList_MouseDoubleClick);
             // 
             // textBoxJPG
             // 
