@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<JPGRawFotoSelector DefaultCheckJPG="true">
+    <DefaultDetectFolder>E:\PhotoProcess</DefaultDetectFolder>
+    <DefaultDeleteFolderName>Remove</DefaultDeleteFolderName>
+    <Cameras>
+        <CameraSetting>
+            <CameraName>Canon</CameraName>
+            <FileSetting>
+                <RawFile>CR2</RawFile>
+                <JpgFile>JPG</JpgFile>
+            </FileSetting>
+        </CameraSetting>
+        <CameraSetting>
+            <CameraName>Sony</CameraName>
+            <FileSetting>
+                <RawFile>ARW</RawFile>
+                <JpgFile>JPG</JpgFile>
+            </FileSetting>
+        </CameraSetting>
+    </Cameras>
+</JPGRawFotoSelector>

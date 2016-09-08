@@ -1,15 +1,16 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("JPGRawFotoSelector")]
+[assembly: AssemblyTitle("MTestJPGAndRawFotoSelector")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("JPGRawFotoSelector")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("MTestJPGAndRawFotoSelector")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("524c5a7a-5304-4a92-acc2-a95dcae30f27")]
+[assembly: Guid("a3487507-4fdc-44c7-a57c-2b8ad16ec02b")]
 
 // Version information for an assembly consists of the following four values:
 //
