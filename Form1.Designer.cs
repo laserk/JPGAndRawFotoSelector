@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FotoSelectorMainWindow));
             this.baseOnJpgCheckBox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.FileCleanList = new System.Windows.Forms.ListBox();
+            this.FileCleanList = new System.Windows.Forms.ListView();
             this.textBoxJPG = new System.Windows.Forms.TextBox();
             this.textPath = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -75,12 +75,12 @@
             // 
             // FileCleanList
             // 
-            this.FileCleanList.FormattingEnabled = true;
-            this.FileCleanList.ItemHeight = 16;
+ 
+
             this.FileCleanList.Location = new System.Drawing.Point(36, 195);
             this.FileCleanList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.FileCleanList.Name = "FileCleanList";
-            this.FileCleanList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.FileCleanList.MultiSelect = true;
             this.FileCleanList.Size = new System.Drawing.Size(764, 692);
             this.FileCleanList.TabIndex = 3;
             this.FileCleanList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FileCleanList_MouseDoubleClick);
@@ -251,7 +251,7 @@
 
         private System.Windows.Forms.CheckBox baseOnJpgCheckBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListBox FileCleanList;
+        private System.Windows.Forms.ListView FileCleanList;
         private System.Windows.Forms.TextBox textBoxJPG;
         private System.Windows.Forms.TextBox textPath;
         private System.Windows.Forms.Button button1;

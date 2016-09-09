@@ -132,7 +132,7 @@ namespace JPGRawFotoSelector
                 }
             }
             foreach (var removefile in removeList)
-                FileCleanList.Items.Remove(removefile);
+                FileCleanList.Items.RemoveByKey(removefile);
             toolStripStatusLabel1.Text = "Total:" + totalRemove + " files be removed, remain:" + FileCleanList.Items.Count + " files to Select";
             toolStripStatusLabel1.ForeColor = Color.Blue;
         }
@@ -194,7 +194,7 @@ namespace JPGRawFotoSelector
             selectAllCheckBox.Enabled = cleanButton.Enabled = !jpgModeCheckBox.Checked;
             toolStripStatusLabel1.Text = jpgModeCheckBox.Checked ? Resources.ViewMode : Resources.CleanMode;
             toolStripStatusLabel1.ForeColor = Color.Green;
-            FileCleanList.SelectionMode = jpgModeCheckBox.Checked ? SelectionMode.One : SelectionMode.MultiExtended;
+            FileCleanList.MultiSelect = !jpgModeCheckBox.Checked ;
             ReSetSelectAll();
             ReFreshUi();
         }
@@ -219,14 +219,14 @@ namespace JPGRawFotoSelector
             if (selectAllCheckBox.Checked)
                 SelectAllFiles();
             else
-                FileCleanList.ClearSelected();
+                FileCleanList.SelectedItems.Clear();
         }
 
         private void SelectAllFiles()
         {
             for (int i = 0; i < FileCleanList.Items.Count; i++)
             {
-                FileCleanList.SetSelected(i, true);
+                FileCleanList.Items[i].Selected= true;
             }
         }
     }
