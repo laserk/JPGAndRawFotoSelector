@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EXIF.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Form1.cs">
