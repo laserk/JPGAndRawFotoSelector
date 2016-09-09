@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<JPGRawFotoSelector DefaultCheckJPG="true">
-    <DefaultDetectFolder>E:\PhotoProcess</DefaultDetectFolder>
-    <DefaultDeleteFolderName>Remove</DefaultDeleteFolderName>
+<JPGRawFotoSelector CheckJPG="true">
+    <DetectFolder>E:\PhotoProcess</DetectFolder>
+    <DeleteFolderName>Remove</DeleteFolderName>
+    <JPGView>true</JPGView>
+    <SelectAll>false</SelectAll>
     <Cameras>
         <CameraSetting>
             <CameraName>Canon</CameraName>

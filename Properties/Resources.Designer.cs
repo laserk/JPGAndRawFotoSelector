@@ -59,5 +59,59 @@ namespace JPGRawFotoSelector.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photo clean mode.
+        /// </summary>
+        internal static string CleanMode {
+            get {
+                return ResourceManager.GetString("CleanMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configration file is missing!!!.
+        /// </summary>
+        internal static string Configration_file_is_missing {
+            get {
+                return ResourceManager.GetString("Configration_file_is_missing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select All.
+        /// </summary>
+        internal static string Select_All {
+            get {
+                return ResourceManager.GetString("Select_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Files To Delete.
+        /// </summary>
+        internal static string SelectFileToDelete {
+            get {
+                return ResourceManager.GetString("SelectFileToDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UnSelect All.
+        /// </summary>
+        internal static string UnSelect_All {
+            get {
+                return ResourceManager.GetString("UnSelect_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photo view mode.
+        /// </summary>
+        internal static string ViewMode {
+            get {
+                return ResourceManager.GetString("ViewMode", resourceCulture);
+            }
+        }
     }
 }

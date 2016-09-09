@@ -117,4 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CleanMode" xml:space="preserve">
+    <value>Photo clean mode</value>
+  </data>
+  <data name="Configration_file_is_missing" xml:space="preserve">
+    <value>Configration file is missing!!!</value>
+  </data>
+  <data name="SelectFileToDelete" xml:space="preserve">
+    <value>Select Files To Delete</value>
+  </data>
+  <data name="Select_All" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="UnSelect_All" xml:space="preserve">
+    <value>UnSelect All</value>
+  </data>
+  <data name="ViewMode" xml:space="preserve">
+    <value>Photo view mode</value>
+  </data>
 </root>

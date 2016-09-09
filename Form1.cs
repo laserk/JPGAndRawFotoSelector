@@ -11,46 +11,59 @@ namespace JPGRawFotoSelector
     public partial class FotoSelectorMainWindow : Form
     {
         string _path;
-        readonly Setting _setting;
+        readonly DefaultSetting _defaultSetting;
 
-        const string strDefaultFileList = "Select Files To Delete";
+        string strDefaultFileList = Resources.SelectFileToDelete;
         public FotoSelectorMainWindow()
         {
             InitializeComponent();
-            _setting = JPGRawFotoSelectorSettings.GetSettings(Helper.GetFullPath("JPGAndRawFotoSelector.xml"));
-            if (_setting == null)
+            _defaultSetting = JPGRawFotoSelectorSettings.GetSettings(Helper.GetFullPath("JPGAndRawFotoSelector.xml"));
+            if (_defaultSetting == null)
             {
-                MessageBox.Show("Configration file is missing!!!");
+                MessageBox.Show(Resources.Configration_file_is_missing);
                 return;
             }
 
             InitialCameraList();
-
             InitialFileListLabel();
+            InitializeCheckBoxes();
+        }
+
+        private void InitializeCheckBoxes()
+        {
+            baseOnJpgCheckBox.Checked = _defaultSetting.CheckJPG;
+            jpgModeCheckBox.Checked = _defaultSetting.JPGView;
+            selectAllCheckBox.Checked = _defaultSetting.SelectAll;
         }
 
         private void InitialFileListLabel()
         {
-            lblFileList.Text = strDefaultFileList;
-            lblFileList.ForeColor = Color.Black;
+            toolStripStatusLabel1.Text = strDefaultFileList;
+            toolStripStatusLabel1.ForeColor = Color.Black;
         }
 
         private void InitialCameraList()
         {
-            foreach (var item in _setting.Cameras)
+            foreach (var item in _defaultSetting.Cameras)
                 cobCamera.Items.Add(item.CameraName) ;
             cobCamera.SelectedIndex = 0;
         }
 
+        private void ReFreshUi()
+        {
+            FillFileTextBoxes();
+            StartDetecteFiles();
+        }
+
         void detectButton_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog1.SelectedPath = _setting.DefaultDetectFolder;
+            folderBrowserDialog1.SelectedPath = _defaultSetting.DetectFolder;
             if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             textPath.Text = folderBrowserDialog1.SelectedPath;
             _path = folderBrowserDialog1.SelectedPath;
             if (!StartDetecteFiles()) return;
-            lblFileList.Text = "Total:" + FileCleanList.Items.Count + " files to Select";
+            toolStripStatusLabel1.Text = "Total:" + FileCleanList.Items.Count + " files to Select";
         }
 
         bool StartDetecteFiles()
@@ -66,11 +79,10 @@ namespace JPGRawFotoSelector
                 var fileListJpg = Directory.EnumerateFiles(_path, "*." + strJpg, SearchOption.TopDirectoryOnly);
 
                 var fileListRaw = Directory.EnumerateFiles(_path, "*." + strRaw, SearchOption.TopDirectoryOnly);
-
-                if (checkBaseOnJPG.Checked)
-                    FillListBaseOnReference(strJpg, strRaw, fileListJpg, fileListRaw);
-                else
-                    FillListBaseOnReference(strRaw,strJpg , fileListRaw, fileListJpg);
+                    if (baseOnJpgCheckBox.Checked && !jpgModeCheckBox.Checked)
+                        FillListBaseOnReference(strJpg, strRaw, fileListJpg, fileListRaw);
+                    else
+                        FillListBaseOnReference(strRaw,strJpg , fileListRaw, fileListJpg);
             }
             catch (Exception exception)
             {
@@ -82,8 +94,8 @@ namespace JPGRawFotoSelector
 
         private void SetErrorMessage(Exception exception)
         {
-            lblFileList.Text = exception.Message;
-            lblFileList.ForeColor = Color.Red;
+            toolStripStatusLabel1.Text = exception.Message;
+            toolStripStatusLabel1.ForeColor = Color.Red;
         }
 
         void FillListBaseOnReference(string referenceSuffix, string targetSuffix, IEnumerable<string> referenceList,
@@ -96,10 +108,10 @@ namespace JPGRawFotoSelector
                 FileCleanList.Items.Add(file);
         }
 
-        void button2_Click(object sender, EventArgs e)
+        void cleanButton_Click(object sender, EventArgs e)
         {
             var removeList = new List<string>();
-             string destPath = _path + "\\"+_setting.DefaultDeleteFolderName+"\\";
+             string destPath = _path + "\\"+_defaultSetting.DeleteFolderName+"\\";
             CheckDeleteFolder(destPath);
             int totalRemove = FileCleanList.SelectedItems.Count;
 
@@ -121,8 +133,8 @@ namespace JPGRawFotoSelector
             }
             foreach (var removefile in removeList)
                 FileCleanList.Items.Remove(removefile);
-            lblFileList.Text = "Total:" + totalRemove + " files be removed, remain:" + FileCleanList.Items.Count + " files to Select";
-            lblFileList.ForeColor = Color.Blue;
+            toolStripStatusLabel1.Text = "Total:" + totalRemove + " files be removed, remain:" + FileCleanList.Items.Count + " files to Select";
+            toolStripStatusLabel1.ForeColor = Color.Blue;
         }
 
         static void CheckDeleteFolder(string destPath)
@@ -143,48 +155,79 @@ namespace JPGRawFotoSelector
 
         CameraSetting SelectedCamera()
         {
-            return _setting.Cameras.FirstOrDefault(camera => string.CompareOrdinal(camera.CameraName, cobCamera.SelectedItem.ToString()) == 0);
+            return _defaultSetting.Cameras.FirstOrDefault(camera => string.CompareOrdinal(camera.CameraName, cobCamera.SelectedItem.ToString()) == 0);
         }
 
 
         void cobCamera_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            FillFileTextBoxes();
-            StartDetecteFiles();
+            ReFreshUi();
         }
 
         void checkBaseOnJPG_CheckedChanged(object sender, EventArgs e)
         {
-            FillFileTextBoxes();
-            StartDetecteFiles();
+            ReFreshUi();
         }
+
+
 
         private void FileCleanList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (FileCleanList.SelectedItems.Count > 0)
-                openJpgFile(FileCleanList.SelectedItems[0].ToString());
+                Helper.OpenJpgFile(FileCleanList.SelectedItems[0].ToString());
         }
 
-        private void openJpgFile(string filePathName)
+        private void viewButton_Click(object sender, EventArgs e)
         {
-            if (!filePathName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) && !filePathName.EndsWith(".jpge", StringComparison.OrdinalIgnoreCase))
-                return;
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-
-     
-            process.StartInfo.FileName = filePathName;
-
-
-            process.StartInfo.Arguments = "rundl132.exe C://WINDOWS//system32//shimgvw.dll,ImageView_Fullscreen";
-
-
-            process.StartInfo.UseShellExecute = true;
-
-            process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            process.Start();
-            process.Close();
-
+            if (FileCleanList.SelectedItems.Count > 0)
+                Helper.OpenJpgFile(FileCleanList.SelectedItems[0].ToString());
         }
 
+        private void modeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            ModeSelected();
+        }
+
+        private void ModeSelected()
+        {
+            viewButton.Enabled = jpgModeCheckBox.Checked;
+            selectAllCheckBox.Enabled = cleanButton.Enabled = !jpgModeCheckBox.Checked;
+            toolStripStatusLabel1.Text = jpgModeCheckBox.Checked ? Resources.ViewMode : Resources.CleanMode;
+            toolStripStatusLabel1.ForeColor = Color.Green;
+            FileCleanList.SelectionMode = jpgModeCheckBox.Checked ? SelectionMode.One : SelectionMode.MultiExtended;
+            ReSetSelectAll();
+            ReFreshUi();
+        }
+
+        private void selectAllCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!selectAllCheckBox.Enabled)
+                return;
+            SelectAllSelected();
+        }
+
+        private void ReSetSelectAll()
+        {
+            selectAllCheckBox.Checked = false;
+            SelectAllSelected();
+        }
+        private void SelectAllSelected()
+        {
+            selectAllCheckBox.Text = selectAllCheckBox.Checked ? Resources.UnSelect_All : Resources.Select_All;
+            if (FileCleanList.Items.Count < 1)
+                return;
+            if (selectAllCheckBox.Checked)
+                SelectAllFiles();
+            else
+                FileCleanList.ClearSelected();
+        }
+
+        private void SelectAllFiles()
+        {
+            for (int i = 0; i < FileCleanList.Items.Count; i++)
+            {
+                FileCleanList.SetSelected(i, true);
+            }
+        }
     }
 }

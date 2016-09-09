@@ -5,12 +5,14 @@ namespace JPGRawFotoSelector
 
     
     [XmlRoot("JPGRawFotoSelector")]
-    public class Setting
+    public class DefaultSetting
     {
         [XmlAttribute]
-        public bool DefaultCheckJPG;
-        public string DefaultDetectFolder;
-        public string DefaultDeleteFolderName;
+        public bool CheckJPG;
+        public bool JPGView;
+        public bool SelectAll;
+        public string DetectFolder;
+        public string DeleteFolderName;
         public CameraSetting[] Cameras;
     }
 

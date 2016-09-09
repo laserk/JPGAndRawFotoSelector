@@ -10,7 +10,6 @@ using System.Xml.Serialization;
 
 namespace JPGRawFotoSelector
 {
-
     public static class Helper
     {
         public static Process StartProcessSilent(string file, string arguments)
@@ -27,7 +26,7 @@ namespace JPGRawFotoSelector
         public static Match RegexMatch(string content, string expression)
         {
             if (content == null)
-                content = string.Empty;
+                content = String.Empty;
             var regex = new Regex(expression,
                 RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant);
             return regex.Match(content);
@@ -45,7 +44,7 @@ namespace JPGRawFotoSelector
 
         public static string GetFullPath(string relative)
         {
-            string current = string.Empty;
+            string current = String.Empty;
             var assembly = Assembly.GetEntryAssembly();
             if (assembly != null)
                 current = Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName;
@@ -84,7 +83,7 @@ namespace JPGRawFotoSelector
         {
             var builder = new StringBuilder();
             var ns = new XmlSerializerNamespaces();
-            ns.Add(string.Empty, string.Empty);
+            ns.Add(String.Empty, String.Empty);
             var serializer = new XmlSerializer(target.GetType());
             using (var writer = new StringWriter(builder))
             {
@@ -105,7 +104,7 @@ namespace JPGRawFotoSelector
             if (pi.PropertyType == typeof (string))
                 newValue = (value == null) ? null : value.ToString();
             if (pi.PropertyType == typeof (Guid))
-                newValue = (value == null || string.IsNullOrEmpty(value.ToString()))
+                newValue = (value == null || String.IsNullOrEmpty(value.ToString()))
                     ? Guid.Empty
                     : Guid.Parse(value.ToString());
             if (pi.PropertyType.IsEnum)
@@ -154,6 +153,27 @@ namespace JPGRawFotoSelector
             if (pi == null || !pi.CanRead)
                 throw new ArgumentException("Property Not Found or Can Not Read", property);
             return pi.GetValue(target, null);
+        }
+
+        public static void OpenJpgFile(string filePathName)
+        {
+            if (!filePathName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) && !filePathName.EndsWith(".jpge", StringComparison.OrdinalIgnoreCase))
+                return;
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+
+     
+            process.StartInfo.FileName = filePathName;
+
+
+            process.StartInfo.Arguments = "rundl132.exe C://WINDOWS//system32//shimgvw.dll,ImageView_Fullscreen";
+
+
+            process.StartInfo.UseShellExecute = true;
+
+            process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            process.Start();
+            process.Close();
+
         }
     }
 }
