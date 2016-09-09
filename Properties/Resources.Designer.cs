@@ -70,11 +70,38 @@ namespace JPGRawFotoSelector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Files.
+        /// </summary>
+        internal static string Column_Header_Files {
+            get {
+                return ResourceManager.GetString("Column_Header_Files", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configration file is missing!!!.
         /// </summary>
         internal static string Configration_file_is_missing {
             get {
                 return ResourceManager.GetString("Configration_file_is_missing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File type does not support.
+        /// </summary>
+        internal static string File_type_does_not_support {
+            get {
+                return ResourceManager.GetString("File_type_does_not_support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File is not in the folder, please refresh the list.
+        /// </summary>
+        internal static string Please_refresh_the_list {
+            get {
+                return ResourceManager.GetString("Please_refresh_the_list", resourceCulture);
             }
         }
         

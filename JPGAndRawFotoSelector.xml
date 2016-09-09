@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <JPGRawFotoSelector CheckJPG="true">
-    <DetectFolder>E:\PhotoProcess</DetectFolder>
+    <DetectFolder>E:\PhotoProcess\test</DetectFolder>
     <DeleteFolderName>Remove</DeleteFolderName>
     <JPGView>true</JPGView>
     <SelectAll>false</SelectAll>

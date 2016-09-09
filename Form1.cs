@@ -11,22 +11,29 @@ namespace JPGRawFotoSelector
     public partial class FotoSelectorMainWindow : Form
     {
         string _path;
-        readonly DefaultSetting _defaultSetting;
+        DefaultSetting _defaultSetting;
 
         string strDefaultFileList = Resources.SelectFileToDelete;
         public FotoSelectorMainWindow()
         {
             InitializeComponent();
+            if(!InitialSettings())
+                return;
+            InitialCameraList();
+            InitialToolStripStatusLabel();
+            ListViewHelper.InitialListView(FileCleanList);
+            InitializeCheckBoxes();
+        }
+
+        private bool InitialSettings()
+        {
             _defaultSetting = JPGRawFotoSelectorSettings.GetSettings(Helper.GetFullPath("JPGAndRawFotoSelector.xml"));
             if (_defaultSetting == null)
             {
                 MessageBox.Show(Resources.Configration_file_is_missing);
-                return;
+                return false;
             }
-
-            InitialCameraList();
-            InitialFileListLabel();
-            InitializeCheckBoxes();
+            return true;
         }
 
         private void InitializeCheckBoxes()
@@ -36,7 +43,7 @@ namespace JPGRawFotoSelector
             selectAllCheckBox.Checked = _defaultSetting.SelectAll;
         }
 
-        private void InitialFileListLabel()
+        private void InitialToolStripStatusLabel()
         {
             toolStripStatusLabel1.Text = strDefaultFileList;
             toolStripStatusLabel1.ForeColor = Color.Black;
@@ -57,11 +64,16 @@ namespace JPGRawFotoSelector
 
         void detectButton_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog1.SelectedPath = _defaultSetting.DetectFolder;
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
-                return;
-            textPath.Text = folderBrowserDialog1.SelectedPath;
-            _path = folderBrowserDialog1.SelectedPath;
+            _path = textPath.Text.Trim();
+            if (string.IsNullOrEmpty(_path))
+                //if (Directory.Exists(_path))
+            {
+                folderBrowserDialog1.SelectedPath = _defaultSetting.DetectFolder;
+                if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
+                    return;
+                textPath.Text = folderBrowserDialog1.SelectedPath;
+                _path = folderBrowserDialog1.SelectedPath;
+            }
             if (!StartDetecteFiles()) return;
             toolStripStatusLabel1.Text = "Total:" + FileCleanList.Items.Count + " files to Select";
         }
@@ -72,17 +84,20 @@ namespace JPGRawFotoSelector
                 return false;
             var strJpg = textBoxJPG.Text.Trim();
             var strRaw = textBoxRAW.Text.Trim();
-            InitialFileListLabel();
+            //InitialToolStripStatusLabel();
             FileCleanList.Items.Clear();
             try
             {
                 var fileListJpg = Directory.EnumerateFiles(_path, "*." + strJpg, SearchOption.TopDirectoryOnly);
 
                 var fileListRaw = Directory.EnumerateFiles(_path, "*." + strRaw, SearchOption.TopDirectoryOnly);
-                    if (baseOnJpgCheckBox.Checked && !jpgModeCheckBox.Checked)
-                        FillListBaseOnReference(strJpg, strRaw, fileListJpg, fileListRaw);
+                if (!jpgModeCheckBox.Checked)
+                    if (baseOnJpgCheckBox.Checked)
+                        ListViewHelper.FillListBaseOnReference(ref FileCleanList,strJpg, strRaw, fileListJpg, fileListRaw);
                     else
-                        FillListBaseOnReference(strRaw,strJpg , fileListRaw, fileListJpg);
+                        ListViewHelper.FillListBaseOnReference(ref FileCleanList, strRaw,strJpg , fileListRaw, fileListJpg);
+                else
+                    ListViewHelper.FillListBaseOnReference(ref FileCleanList, strRaw, strJpg, new List<string>(), fileListJpg);
             }
             catch (Exception exception)
             {
@@ -98,32 +113,22 @@ namespace JPGRawFotoSelector
             toolStripStatusLabel1.ForeColor = Color.Red;
         }
 
-        void FillListBaseOnReference(string referenceSuffix, string targetSuffix, IEnumerable<string> referenceList,
-            IEnumerable<string> targetList)
-        {
-            var query = targetList
-                .Where(f => !referenceList.Contains(f.Replace(targetSuffix, referenceSuffix)));
-            if (!query.Any()) return;
-            foreach (var file in query)
-                FileCleanList.Items.Add(file);
-        }
-
         void cleanButton_Click(object sender, EventArgs e)
         {
-            var removeList = new List<string>();
+            var removeList = new List<int>();
              string destPath = _path + "\\"+_defaultSetting.DeleteFolderName+"\\";
             CheckDeleteFolder(destPath);
             int totalRemove = FileCleanList.SelectedItems.Count;
 
-            foreach (var file in FileCleanList.SelectedItems)
+            foreach (ListViewItem file in FileCleanList.SelectedItems)
             {
-                var sourcePath = file.ToString();
+                var sourcePath = file.Text;
                 if (!File.Exists(sourcePath)) continue;
                 var fInfo = new FileInfo(sourcePath);
                 try
                 {
                     File.Move(sourcePath, destPath + fInfo.Name);
-                    removeList.Add(sourcePath);
+                    removeList.Add(file.Index);
                 }
                 catch (Exception exception)
                 {
@@ -131,8 +136,7 @@ namespace JPGRawFotoSelector
                     return;
                 }
             }
-            foreach (var removefile in removeList)
-                FileCleanList.Items.RemoveByKey(removefile);
+            ListViewHelper.RemoveDeletedItems(ref FileCleanList, removeList);
             toolStripStatusLabel1.Text = "Total:" + totalRemove + " files be removed, remain:" + FileCleanList.Items.Count + " files to Select";
             toolStripStatusLabel1.ForeColor = Color.Blue;
         }
@@ -170,17 +174,16 @@ namespace JPGRawFotoSelector
         }
 
 
-
         private void FileCleanList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (FileCleanList.SelectedItems.Count > 0)
-                Helper.OpenJpgFile(FileCleanList.SelectedItems[0].ToString());
+                Helper.OpenJpgFile(FileCleanList.SelectedItems[0].Text);
         }
 
         private void viewButton_Click(object sender, EventArgs e)
         {
             if (FileCleanList.SelectedItems.Count > 0)
-                Helper.OpenJpgFile(FileCleanList.SelectedItems[0].ToString());
+                Helper.OpenJpgFile(FileCleanList.SelectedItems[0].Text);
         }
 
         private void modeCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -204,6 +207,7 @@ namespace JPGRawFotoSelector
             if (!selectAllCheckBox.Enabled)
                 return;
             SelectAllSelected();
+            FileCleanList.Focus();
         }
 
         private void ReSetSelectAll()
@@ -217,17 +221,9 @@ namespace JPGRawFotoSelector
             if (FileCleanList.Items.Count < 1)
                 return;
             if (selectAllCheckBox.Checked)
-                SelectAllFiles();
+                ListViewHelper.SelectAllFiles(ref FileCleanList);
             else
                 FileCleanList.SelectedItems.Clear();
-        }
-
-        private void SelectAllFiles()
-        {
-            for (int i = 0; i < FileCleanList.Items.Count; i++)
-            {
-                FileCleanList.Items[i].Selected= true;
-            }
         }
     }
 }

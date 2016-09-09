@@ -135,4 +135,13 @@
   <data name="ViewMode" xml:space="preserve">
     <value>Photo view mode</value>
   </data>
+    <data name="Column_Header_Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+    <data name="File_type_does_not_support" xml:space="preserve">
+    <value>File type does not support</value>
+  </data>
+    <data name="Please_refresh_the_list" xml:space="preserve">
+    <value>File is not in the folder, please refresh the list</value>
+  </data>
 </root>

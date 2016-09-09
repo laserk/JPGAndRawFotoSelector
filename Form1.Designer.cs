@@ -54,10 +54,10 @@
             this.baseOnJpgCheckBox.AutoSize = true;
             this.baseOnJpgCheckBox.Checked = true;
             this.baseOnJpgCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.baseOnJpgCheckBox.Location = new System.Drawing.Point(57, 78);
+            this.baseOnJpgCheckBox.Location = new System.Drawing.Point(57, 73);
             this.baseOnJpgCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.baseOnJpgCheckBox.Name = "baseOnJpgCheckBox";
-            this.baseOnJpgCheckBox.Size = new System.Drawing.Size(139, 21);
+            this.baseOnJpgCheckBox.Size = new System.Drawing.Size(157, 19);
             this.baseOnJpgCheckBox.TabIndex = 0;
             this.baseOnJpgCheckBox.Text = "Base on JPG File";
             this.baseOnJpgCheckBox.UseVisualStyleBackColor = true;
@@ -66,48 +66,50 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(205, 39);
+            this.label1.Location = new System.Drawing.Point(205, 37);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(97, 17);
+            this.label1.Size = new System.Drawing.Size(111, 15);
             this.label1.TabIndex = 1;
             this.label1.Text = "JPG File Type";
             // 
             // FileCleanList
             // 
- 
-
-            this.FileCleanList.Location = new System.Drawing.Point(36, 195);
+            this.FileCleanList.AllowDrop = true;
+            this.FileCleanList.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.FileCleanList.LabelWrap = false;
+            this.FileCleanList.Location = new System.Drawing.Point(36, 183);
             this.FileCleanList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.FileCleanList.Name = "FileCleanList";
-            this.FileCleanList.MultiSelect = true;
-            this.FileCleanList.Size = new System.Drawing.Size(764, 692);
+            this.FileCleanList.Size = new System.Drawing.Size(764, 649);
             this.FileCleanList.TabIndex = 3;
+            this.FileCleanList.UseCompatibleStateImageBehavior = false;
+            this.FileCleanList.View = System.Windows.Forms.View.Details;
             this.FileCleanList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FileCleanList_MouseDoubleClick);
             // 
             // textBoxJPG
             // 
-            this.textBoxJPG.Location = new System.Drawing.Point(311, 34);
+            this.textBoxJPG.Location = new System.Drawing.Point(311, 32);
             this.textBoxJPG.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxJPG.Name = "textBoxJPG";
-            this.textBoxJPG.Size = new System.Drawing.Size(105, 22);
+            this.textBoxJPG.Size = new System.Drawing.Size(105, 25);
             this.textBoxJPG.TabIndex = 4;
             this.textBoxJPG.Text = "JPG";
             // 
             // textPath
             // 
-            this.textPath.Location = new System.Drawing.Point(36, 114);
+            this.textPath.Location = new System.Drawing.Point(36, 107);
             this.textPath.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textPath.Name = "textPath";
-            this.textPath.Size = new System.Drawing.Size(764, 22);
+            this.textPath.Size = new System.Drawing.Size(764, 25);
             this.textPath.TabIndex = 5;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(684, 58);
+            this.button1.Location = new System.Drawing.Point(684, 54);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(116, 41);
+            this.button1.Size = new System.Drawing.Size(116, 38);
             this.button1.TabIndex = 6;
             this.button1.Text = "Detect File";
             this.button1.UseVisualStyleBackColor = true;
@@ -115,10 +117,10 @@
             // 
             // cleanButton
             // 
-            this.cleanButton.Location = new System.Drawing.Point(684, 142);
+            this.cleanButton.Location = new System.Drawing.Point(684, 133);
             this.cleanButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cleanButton.Name = "cleanButton";
-            this.cleanButton.Size = new System.Drawing.Size(116, 41);
+            this.cleanButton.Size = new System.Drawing.Size(116, 38);
             this.cleanButton.TabIndex = 7;
             this.cleanButton.Text = "Clean File";
             this.cleanButton.UseVisualStyleBackColor = true;
@@ -127,19 +129,19 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(425, 38);
+            this.label5.Location = new System.Drawing.Point(425, 36);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(102, 17);
+            this.label5.Size = new System.Drawing.Size(111, 15);
             this.label5.TabIndex = 2;
             this.label5.Text = "RAW File Type";
             // 
             // textBoxRAW
             // 
-            this.textBoxRAW.Location = new System.Drawing.Point(539, 34);
+            this.textBoxRAW.Location = new System.Drawing.Point(539, 32);
             this.textBoxRAW.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxRAW.Name = "textBoxRAW";
-            this.textBoxRAW.Size = new System.Drawing.Size(105, 22);
+            this.textBoxRAW.Size = new System.Drawing.Size(105, 25);
             this.textBoxRAW.TabIndex = 5;
             this.textBoxRAW.Text = "ARW";
             // 
@@ -147,10 +149,10 @@
             // 
             this.cobCamera.AllowDrop = true;
             this.cobCamera.FormattingEnabled = true;
-            this.cobCamera.Location = new System.Drawing.Point(36, 35);
+            this.cobCamera.Location = new System.Drawing.Point(36, 33);
             this.cobCamera.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cobCamera.Name = "cobCamera";
-            this.cobCamera.Size = new System.Drawing.Size(160, 24);
+            this.cobCamera.Size = new System.Drawing.Size(160, 23);
             this.cobCamera.TabIndex = 9;
             this.cobCamera.SelectedIndexChanged += new System.EventHandler(this.cobCamera_SelectedIndexChanged_1);
             // 
@@ -159,7 +161,7 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 890);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 833);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(817, 25);
             this.statusStrip1.TabIndex = 10;
@@ -168,15 +170,15 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(151, 20);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(167, 20);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // jpgModeCheckBox
             // 
             this.jpgModeCheckBox.AutoSize = true;
-            this.jpgModeCheckBox.Location = new System.Drawing.Point(48, 154);
+            this.jpgModeCheckBox.Location = new System.Drawing.Point(48, 144);
             this.jpgModeCheckBox.Name = "jpgModeCheckBox";
-            this.jpgModeCheckBox.Size = new System.Drawing.Size(129, 21);
+            this.jpgModeCheckBox.Size = new System.Drawing.Size(133, 19);
             this.jpgModeCheckBox.TabIndex = 11;
             this.jpgModeCheckBox.Text = "JPG View Mode";
             this.jpgModeCheckBox.UseVisualStyleBackColor = true;
@@ -185,9 +187,9 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(208, 78);
+            this.checkBox1.Location = new System.Drawing.Point(208, 73);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(103, 21);
+            this.checkBox1.Size = new System.Drawing.Size(109, 19);
             this.checkBox1.TabIndex = 12;
             this.checkBox1.Text = "Auto Group";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -195,9 +197,9 @@
             // selectAllCheckBox
             // 
             this.selectAllCheckBox.AutoSize = true;
-            this.selectAllCheckBox.Location = new System.Drawing.Point(573, 153);
+            this.selectAllCheckBox.Location = new System.Drawing.Point(539, 144);
             this.selectAllCheckBox.Name = "selectAllCheckBox";
-            this.selectAllCheckBox.Size = new System.Drawing.Size(88, 21);
+            this.selectAllCheckBox.Size = new System.Drawing.Size(109, 19);
             this.selectAllCheckBox.TabIndex = 13;
             this.selectAllCheckBox.Text = "Select All";
             this.selectAllCheckBox.UseVisualStyleBackColor = true;
@@ -205,10 +207,10 @@
             // 
             // viewButton
             // 
-            this.viewButton.Location = new System.Drawing.Point(224, 142);
+            this.viewButton.Location = new System.Drawing.Point(224, 133);
             this.viewButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.viewButton.Name = "viewButton";
-            this.viewButton.Size = new System.Drawing.Size(116, 41);
+            this.viewButton.Size = new System.Drawing.Size(116, 38);
             this.viewButton.TabIndex = 15;
             this.viewButton.Text = "View JPG";
             this.viewButton.UseVisualStyleBackColor = true;
@@ -216,9 +218,9 @@
             // 
             // FotoSelectorMainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(817, 915);
+            this.ClientSize = new System.Drawing.Size(817, 858);
             this.Controls.Add(this.viewButton);
             this.Controls.Add(this.selectAllCheckBox);
             this.Controls.Add(this.checkBox1);

@@ -6,7 +6,9 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Xml.Serialization;
+using JPGRawFotoSelector.Properties;
 
 namespace JPGRawFotoSelector
 {
@@ -157,8 +159,17 @@ namespace JPGRawFotoSelector
 
         public static void OpenJpgFile(string filePathName)
         {
-            if (!filePathName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) && !filePathName.EndsWith(".jpge", StringComparison.OrdinalIgnoreCase))
+            if (!filePathName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) &&
+                !filePathName.EndsWith(".jpge", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show(Resources.File_type_does_not_support);
                 return;
+            }
+            if (!File.Exists(filePathName))
+            {
+                MessageBox.Show(Resources.Please_refresh_the_list);
+                return;
+            }
             System.Diagnostics.Process process = new System.Diagnostics.Process();
 
      
