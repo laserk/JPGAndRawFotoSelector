@@ -76,6 +76,7 @@
             // FileCleanList
             // 
             this.FileCleanList.AllowDrop = true;
+            this.FileCleanList.FullRowSelect = true;
             this.FileCleanList.ImeMode = System.Windows.Forms.ImeMode.On;
             this.FileCleanList.LabelWrap = false;
             this.FileCleanList.Location = new System.Drawing.Point(36, 183);
@@ -187,7 +188,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(208, 73);
+            this.checkBox1.Location = new System.Drawing.Point(231, 73);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(109, 19);
             this.checkBox1.TabIndex = 12;

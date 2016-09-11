@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Text;
 
 namespace JPGRawFotoSelector
@@ -25,8 +27,8 @@ namespace JPGRawFotoSelector
         public class ExifManager : IDisposable
         {
 
-            private System.Drawing.Bitmap _Image;
-            private System.Text.Encoding _Encoding = System.Text.Encoding.UTF8;
+            private Bitmap _Image;
+            private Encoding _Encoding = Encoding.UTF8;
 
 
             #region Type declarations
@@ -39,7 +41,7 @@ namespace JPGRawFotoSelector
 // [altair] 10.09.2003 Created
 // 
 
-            public enum TagNames : int
+            public enum TagNames
             {
                 ExifIFD = 0x8769,
                 GpsIFD = 0x8825,
@@ -296,7 +298,7 @@ namespace JPGRawFotoSelector
                 Creative = 5,
                 Action = 6,
                 Portrait = 7,
-                Landscape = 8,
+                Landscape = 8
             }
 
 
@@ -334,7 +336,7 @@ namespace JPGRawFotoSelector
                 NotFired = 0,
                 Fired = 1,
                 FiredButNoStrobeReturned = 5,
-                FiredAndStrobeReturned = 7,
+                FiredAndStrobeReturned = 7
             }
 
 
@@ -445,11 +447,11 @@ namespace JPGRawFotoSelector
             // 
             // [altair] 10.09.2003 Created
             // 
-            public ExifManager(System.Drawing.Bitmap Bitmap)
+            public ExifManager(Bitmap Bitmap)
             {
                 if (Bitmap == null)
                     throw new ArgumentNullException("Bitmap");
-                this._Image = Bitmap;
+                _Image = Bitmap;
             }
 
             // 
@@ -462,7 +464,7 @@ namespace JPGRawFotoSelector
             // 
             public ExifManager(string FileName)
             {
-                this._Image = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromFile(FileName);
+                _Image = (Bitmap)Bitmap.FromFile(FileName);
             }
 
             // 
@@ -474,17 +476,17 @@ namespace JPGRawFotoSelector
             // [altair] 11.07.2004 Created
             // [altair] 05.09.2005 Changed from shared to instance member
             // 
-            public System.Text.Encoding Encoding
+            public Encoding Encoding
             {
                 get
                 {
-                    return this._Encoding;
+                    return _Encoding;
                 }
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException();
-                    this._Encoding = value;
+                    _Encoding = value;
                 }
             }
 
@@ -496,9 +498,9 @@ namespace JPGRawFotoSelector
             // 
             // [altair] 13.06.2004 Created
             // 
-            public System.Drawing.Bitmap GetBitmap()
+            public Bitmap GetBitmap()
             {
-                return (System.Drawing.Bitmap)this._Image.Clone();
+                return (Bitmap)_Image.Clone();
             }
 
             // 
@@ -511,33 +513,33 @@ namespace JPGRawFotoSelector
             // 
             public override string ToString()
             {
-                System.Text.StringBuilder SB = new StringBuilder();
+                StringBuilder SB = new StringBuilder();
 
                 SB.Append("Image:");
-                SB.Append("\n\tDimensions: " + this.Width + " x " + this.Height + " px");
-                SB.Append("\n\tResolution: " + this.ResolutionX + " x " + this.ResolutionY + " dpi");
-                SB.Append("\n\tOrientation: " + Enum.GetName(typeof(Orientations), this.Orientation));
-                SB.Append("\n\tTitle: " + this.Title);
-                SB.Append("\n\tDescription: " + this.Description);
-                SB.Append("\n\tCopyright: " + this.Copyright);
+                SB.Append("\n\tDimensions: " + Width + " x " + Height + " px");
+                SB.Append("\n\tResolution: " + ResolutionX + " x " + ResolutionY + " dpi");
+                SB.Append("\n\tOrientation: " + Enum.GetName(typeof(Orientations), Orientation));
+                SB.Append("\n\tTitle: " + Title);
+                SB.Append("\n\tDescription: " + Description);
+                SB.Append("\n\tCopyright: " + Copyright);
                 SB.Append("\nEquipment:");
-                SB.Append("\n\tMaker: " + this.EquipmentMaker);
-                SB.Append("\n\tModel: " + this.EquipmentModel);
-                SB.Append("\n\tSoftware: " + this.Software);
+                SB.Append("\n\tMaker: " + EquipmentMaker);
+                SB.Append("\n\tModel: " + EquipmentModel);
+                SB.Append("\n\tSoftware: " + Software);
                 SB.Append("\nDate and time:");
-                SB.Append("\n\tGeneral: " + this.DateTimeLastModified.ToString());
-                SB.Append("\n\tOriginal: " + this.DateTimeOriginal.ToString());
-                SB.Append("\n\tDigitized: " + this.DateTimeDigitized.ToString());
+                SB.Append("\n\tGeneral: " + DateTimeLastModified);
+                SB.Append("\n\tOriginal: " + DateTimeOriginal);
+                SB.Append("\n\tDigitized: " + DateTimeDigitized);
                 SB.Append("\nShooting conditions:");
-                SB.Append("\n\tExposure time: " + this.ExposureTime.ToString("N4") + " s");
-                SB.Append("\n\tExposure program: " + Enum.GetName(typeof(ExposurePrograms), this.ExposureProgram));
-                SB.Append("\n\tExposure mode: " + Enum.GetName(typeof(ExposureMeteringModes), this.ExposureMeteringMode));
-                SB.Append("\n\tAperture: F" + this.Aperture.ToString("N2"));
-                SB.Append("\n\tISO sensitivity: " + this.ISO);
-                SB.Append("\n\tSubject distance: " + this.SubjectDistance.ToString("N2") + " m");
-                SB.Append("\n\tFocal length: " + this.FocalLength);
-                SB.Append("\n\tFlash: " + Enum.GetName(typeof(FlashModes), this.FlashMode));
-                SB.Append("\n\tLight source (WB): " + Enum.GetName(typeof(LightSources), this.LightSource));
+                SB.Append("\n\tExposure time: " + ExposureTime.ToString("N4") + " s");
+                SB.Append("\n\tExposure program: " + Enum.GetName(typeof(ExposurePrograms), ExposureProgram));
+                SB.Append("\n\tExposure mode: " + Enum.GetName(typeof(ExposureMeteringModes), ExposureMeteringMode));
+                SB.Append("\n\tAperture: F" + Aperture.ToString("N2"));
+                SB.Append("\n\tISO sensitivity: " + ISO);
+                SB.Append("\n\tSubject distance: " + SubjectDistance.ToString("N2") + " m");
+                SB.Append("\n\tFocal length: " + FocalLength);
+                SB.Append("\n\tFlash: " + Enum.GetName(typeof(FlashModes), FlashMode));
+                SB.Append("\n\tLight source (WB): " + Enum.GetName(typeof(LightSources), LightSource));
                 //SB.Replace("\n", vbCrLf);
                 //SB.Replace("\t", vbTab);
                 return SB.ToString();
@@ -557,7 +559,7 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    return this.GetPropertyString((int)TagNames.EquipMake);
+                    return GetPropertyString((int)TagNames.EquipMake);
                 }
             }
 
@@ -573,7 +575,7 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    return this.GetPropertyString((int)TagNames.EquipModel);
+                    return GetPropertyString((int)TagNames.EquipModel);
                 }
             }
 
@@ -589,7 +591,7 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    return this.GetPropertyString((int)TagNames.SoftwareUsed);
+                    return GetPropertyString((int)TagNames.SoftwareUsed);
                 }
             }
 
@@ -605,12 +607,11 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    Int32 X = this.GetPropertyInt16((int)TagNames.Orientation);
+                    Int32 X = GetPropertyInt16((int)TagNames.Orientation);
 
                     if (!Enum.IsDefined(typeof(Orientations), X))
                         return Orientations.TopLeft;
-                    else
-                        return (Orientations)Enum.Parse(typeof(Orientations), Enum.GetName(typeof(Orientations), X));
+                    return (Orientations)Enum.Parse(typeof(Orientations), Enum.GetName(typeof(Orientations), X));
                 }
             }
 
@@ -628,7 +629,7 @@ namespace JPGRawFotoSelector
                 {
                     try
                     {
-                        return DateTime.ParseExact(this.GetPropertyString((int)TagNames.DateTime), @"yyyy\:MM\:dd HH\:mm\:ss", null);
+                        return DateTime.ParseExact(GetPropertyString((int)TagNames.DateTime), @"yyyy\:MM\:dd HH\:mm\:ss", null);
                     }
                     catch
                     {
@@ -639,7 +640,7 @@ namespace JPGRawFotoSelector
                 {
                     try
                     {
-                        this.SetPropertyString((int)TagNames.DateTime, value.ToString(@"yyyy\:MM\:dd HH\:mm\:ss"));
+                        SetPropertyString((int)TagNames.DateTime, value.ToString(@"yyyy\:MM\:dd HH\:mm\:ss"));
                     }
                     catch
                     { }
@@ -660,7 +661,7 @@ namespace JPGRawFotoSelector
                 {
                     try
                     {
-                        return DateTime.ParseExact(this.GetPropertyString((int)TagNames.ExifDTOrig), @"yyyy\:MM\:dd HH\:mm\:ss", null);
+                        return DateTime.ParseExact(GetPropertyString((int)TagNames.ExifDTOrig), @"yyyy\:MM\:dd HH\:mm\:ss", null);
                     }
                     catch
                     {
@@ -671,7 +672,7 @@ namespace JPGRawFotoSelector
                 {
                     try
                     {
-                        this.SetPropertyString((int)TagNames.ExifDTOrig, value.ToString(@"yyyy\:MM\:dd HH\:mm\:ss"));
+                        SetPropertyString((int)TagNames.ExifDTOrig, value.ToString(@"yyyy\:MM\:dd HH\:mm\:ss"));
                     }
                     catch
                     { }
@@ -692,7 +693,7 @@ namespace JPGRawFotoSelector
                 {
                     try
                     {
-                        return DateTime.ParseExact(this.GetPropertyString((int)TagNames.ExifDTDigitized), @"yyyy\:MM\:dd HH\:mm\:ss", null);
+                        return DateTime.ParseExact(GetPropertyString((int)TagNames.ExifDTDigitized), @"yyyy\:MM\:dd HH\:mm\:ss", null);
                     }
                     catch
                     {
@@ -703,7 +704,7 @@ namespace JPGRawFotoSelector
                 {
                     try
                     {
-                        this.SetPropertyString((int)TagNames.ExifDTDigitized, value.ToString(@"yyyy\:MM\:dd HH\:mm\:ss"));
+                        SetPropertyString((int)TagNames.ExifDTDigitized, value.ToString(@"yyyy\:MM\:dd HH\:mm\:ss"));
                     }
                     catch
                     { }
@@ -721,7 +722,7 @@ namespace JPGRawFotoSelector
             // 
             public Int32 Width
             {
-                get { return this._Image.Width; }
+                get { return _Image.Width; }
             }
 
             // 
@@ -735,7 +736,7 @@ namespace JPGRawFotoSelector
             // 
             public Int32 Height
             {
-                get { return this._Image.Height; }
+                get { return _Image.Height; }
             }
 
             // 
@@ -750,18 +751,15 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    double R = this.GetPropertyRational((int)TagNames.XResolution).ToDouble();
+                    double R = GetPropertyRational((int)TagNames.XResolution).ToDouble();
 
-                    if (this.GetPropertyInt16((int)TagNames.ResolutionUnit) == 3)
+                    if (GetPropertyInt16((int)TagNames.ResolutionUnit) == 3)
                     {
                         // -- resolution is in points/cm
                         return R * 2.54;
                     }
-                    else
-                    {
-                        // -- resolution is in points/inch
-                        return R;
-                    }
+                    // -- resolution is in points/inch
+                    return R;
                 }
             }
 
@@ -777,18 +775,15 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    double R = this.GetPropertyRational((int)TagNames.YResolution).ToDouble();
+                    double R = GetPropertyRational((int)TagNames.YResolution).ToDouble();
 
-                    if (this.GetPropertyInt16((int)TagNames.ResolutionUnit) == 3)
+                    if (GetPropertyInt16((int)TagNames.ResolutionUnit) == 3)
                     {
                         // -- resolution is in points/cm
                         return R * 2.54;
                     }
-                    else
-                    {
-                        // -- resolution is in points/inch
-                        return R;
-                    }
+                    // -- resolution is in points/inch
+                    return R;
                 }
             }
 
@@ -804,13 +799,13 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    return this.GetPropertyString((int)TagNames.ImageTitle);
+                    return GetPropertyString((int)TagNames.ImageTitle);
                 }
                 set
                 {
                     try
                     {
-                        this.SetPropertyString((int)TagNames.ImageTitle, value);
+                        SetPropertyString((int)TagNames.ImageTitle, value);
                     }
                     catch { }
                 }
@@ -828,13 +823,13 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    return this.GetPropertyString((int)TagNames.ExifUserComment);
+                    return GetPropertyString((int)TagNames.ExifUserComment);
                 }
                 set
                 {
                     try
                     {
-                        this.SetPropertyString((int)TagNames.ExifUserComment, value);
+                        SetPropertyString((int)TagNames.ExifUserComment, value);
                     }
                     catch { }
                 }
@@ -852,13 +847,13 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    return this.GetPropertyString((int)TagNames.Artist);
+                    return GetPropertyString((int)TagNames.Artist);
                 }
                 set
                 {
                     try
                     {
-                        this.SetPropertyString((int)TagNames.Artist, value);
+                        SetPropertyString((int)TagNames.Artist, value);
                     }
                     catch { }
                 }
@@ -876,13 +871,13 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    return this.GetPropertyString((int)TagNames.ImageDescription);
+                    return GetPropertyString((int)TagNames.ImageDescription);
                 }
                 set
                 {
                     try
                     {
-                        this.SetPropertyString((int)TagNames.ImageDescription, value);
+                        SetPropertyString((int)TagNames.ImageDescription, value);
                     }
                     catch { }
                 }
@@ -900,13 +895,13 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    return this.GetPropertyString((int)TagNames.Copyright);
+                    return GetPropertyString((int)TagNames.Copyright);
                 }
                 set
                 {
                     try
                     {
-                        this.SetPropertyString((int)TagNames.Copyright, value);
+                        SetPropertyString((int)TagNames.Copyright, value);
                     }
                     catch { }
                 }
@@ -925,16 +920,13 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    if (this.IsPropertyDefined((int)TagNames.ExifExposureTime))
+                    if (IsPropertyDefined((int)TagNames.ExifExposureTime))
                         // -- Exposure time is explicitly specified
-                        return this.GetPropertyRational((int)TagNames.ExifExposureTime).ToDouble();
-                    else
-                    if (this.IsPropertyDefined((int)TagNames.ExifShutterSpeed))
+                        return GetPropertyRational((int)TagNames.ExifExposureTime).ToDouble();
+                    if (IsPropertyDefined((int)TagNames.ExifShutterSpeed))
                         //'-- Compute exposure time from shutter spee 
-                        return (1 / Math.Pow(2, this.GetPropertyRational((int)TagNames.ExifShutterSpeed).ToDouble()));
-                    else
-                        // -- Can't figure out 
-                        return 0;
+                        return (1 / Math.Pow(2, GetPropertyRational((int)TagNames.ExifShutterSpeed).ToDouble()));
+                    return 0;
                 }
             }
 
@@ -942,11 +934,10 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    if (this.IsPropertyDefined((int)TagNames.ExifExposureTime))
+                    if (IsPropertyDefined((int)TagNames.ExifExposureTime))
                         // -- Exposure time is explicitly specified
-                        return this.GetPropertyRational((int)TagNames.ExifExposureTime);
-                    else
-                        return new Rational();
+                        return GetPropertyRational((int)TagNames.ExifExposureTime);
+                    return new Rational();
                 }
             }
 
@@ -962,13 +953,11 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    if (this.IsPropertyDefined((int)TagNames.ExifFNumber))
-                        return this.GetPropertyRational((int)TagNames.ExifFNumber).ToDouble();
-                    else
-                    if (this.IsPropertyDefined((int)TagNames.ExifAperture))
-                        return Math.Pow(System.Math.Sqrt(2), this.GetPropertyRational((int)TagNames.ExifAperture).ToDouble());
-                    else
-                        return 0;
+                    if (IsPropertyDefined((int)TagNames.ExifFNumber))
+                        return GetPropertyRational((int)TagNames.ExifFNumber).ToDouble();
+                    if (IsPropertyDefined((int)TagNames.ExifAperture))
+                        return Math.Pow(Math.Sqrt(2), GetPropertyRational((int)TagNames.ExifAperture).ToDouble());
+                    return 0;
                 }
             }
 
@@ -984,12 +973,11 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    Int32 X = this.GetPropertyInt16((int)TagNames.ExifExposureProg);
+                    Int32 X = GetPropertyInt16((int)TagNames.ExifExposureProg);
 
                     if (Enum.IsDefined(typeof(ExposurePrograms), X))
                         return (ExposurePrograms)Enum.Parse(typeof(ExposurePrograms), Enum.GetName(typeof(ExposurePrograms), X));
-                    else
-                        return ExposurePrograms.Normal;
+                    return ExposurePrograms.Normal;
                 }
             }
 
@@ -1003,7 +991,7 @@ namespace JPGRawFotoSelector
             // 
             public Int16 ISO
             {
-                get { return this.GetPropertyInt16((int)TagNames.ExifISOSpeed); }
+                get { return GetPropertyInt16((int)TagNames.ExifISOSpeed); }
             }
 
             // 
@@ -1016,7 +1004,7 @@ namespace JPGRawFotoSelector
             // 
             public double SubjectDistance
             {
-                get { return this.GetPropertyRational((int)TagNames.ExifSubjectDist).ToDouble(); }
+                get { return GetPropertyRational((int)TagNames.ExifSubjectDist).ToDouble(); }
             }
 
             // 
@@ -1031,12 +1019,11 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    Int32 X = this.GetPropertyInt16((int)TagNames.ExifMeteringMode);
+                    Int32 X = GetPropertyInt16((int)TagNames.ExifMeteringMode);
 
                     if (Enum.IsDefined(typeof(ExposureMeteringModes), X))
                         return (ExposureMeteringModes)Enum.Parse(typeof(ExposureMeteringModes), Enum.GetName(typeof(ExposureMeteringModes), X));
-                    else
-                        return ExposureMeteringModes.Unknown;
+                    return ExposureMeteringModes.Unknown;
                 }
             }
 
@@ -1050,7 +1037,7 @@ namespace JPGRawFotoSelector
             // 
             public double FocalLength
             {
-                get { return this.GetPropertyRational((int)TagNames.ExifFocalLength).ToDouble(); }
+                get { return GetPropertyRational((int)TagNames.ExifFocalLength).ToDouble(); }
             }
 
             // 
@@ -1065,12 +1052,11 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    Int32 X = this.GetPropertyInt16((int)TagNames.ExifFlash);
+                    Int32 X = GetPropertyInt16((int)TagNames.ExifFlash);
 
                     if (Enum.IsDefined(typeof(FlashModes), X))
                         return (FlashModes)Enum.Parse(typeof(FlashModes), Enum.GetName(typeof(FlashModes), X));
-                    else
-                        return FlashModes.NotFired;
+                    return FlashModes.NotFired;
                 }
             }
 
@@ -1086,12 +1072,11 @@ namespace JPGRawFotoSelector
             {
                 get
                 {
-                    Int32 X = this.GetPropertyInt16((int)TagNames.ExifLightSource);
+                    Int32 X = GetPropertyInt16((int)TagNames.ExifLightSource);
 
                     if (Enum.IsDefined(typeof(LightSources), X))
                         return (LightSources)Enum.Parse(typeof(LightSources), Enum.GetName(typeof(LightSources), X));
-                    else
-                        return LightSources.Unknown;
+                    return LightSources.Unknown;
                 }
             }
 
@@ -1110,7 +1095,7 @@ namespace JPGRawFotoSelector
 // 
             public bool IsPropertyDefined(Int32 PID)
             {
-                return (Array.IndexOf(this._Image.PropertyIdList, PID) > -1);
+                return (Array.IndexOf(_Image.PropertyIdList, PID) > -1);
             }
 
             // 
@@ -1131,9 +1116,8 @@ namespace JPGRawFotoSelector
             public Int32 GetPropertyInt32(Int32 PID, Int32 DefaultValue)
             {
                 if (IsPropertyDefined(PID))
-                    return GetInt32(this._Image.GetPropertyItem(PID).Value);
-                else
-                    return DefaultValue;
+                    return GetInt32(_Image.GetPropertyItem(PID).Value);
+                return DefaultValue;
             }
 
             // 
@@ -1154,9 +1138,8 @@ namespace JPGRawFotoSelector
             public Int16 GetPropertyInt16(Int32 PID, Int16 DefaultValue)
             {
                 if (IsPropertyDefined(PID))
-                    return GetInt16(this._Image.GetPropertyItem(PID).Value);
-                else
-                    return DefaultValue;
+                    return GetInt16(_Image.GetPropertyItem(PID).Value);
+                return DefaultValue;
             }
 
             // 
@@ -1177,9 +1160,8 @@ namespace JPGRawFotoSelector
             public string GetPropertyString(Int32 PID, string DefaultValue)
             {
                 if (IsPropertyDefined(PID))
-                    return GetString(this._Image.GetPropertyItem(PID).Value);
-                else
-                    return DefaultValue;
+                    return GetString(_Image.GetPropertyItem(PID).Value);
+                return DefaultValue;
             }
 
             // 
@@ -1195,9 +1177,8 @@ namespace JPGRawFotoSelector
             public byte[] GetProperty(Int32 PID, byte[] DefaultValue)
             {
                 if (IsPropertyDefined(PID))
-                    return this._Image.GetPropertyItem(PID).Value;
-                else
-                    return DefaultValue;
+                    return _Image.GetPropertyItem(PID).Value;
+                return DefaultValue;
             }
 
             public byte[] GetProperty(Int32 PID)
@@ -1217,14 +1198,11 @@ namespace JPGRawFotoSelector
             public Rational GetPropertyRational(Int32 PID)
             {
                 if (IsPropertyDefined(PID))
-                    return GetRational(this._Image.GetPropertyItem(PID).Value);
-                else
-                {
-                    Rational R;
-                    R.Numerator = 0;
-                    R.Denominator = 1;
-                    return R;
-                }
+                    return GetRational(_Image.GetPropertyItem(PID).Value);
+                Rational R;
+                R.Numerator = 0;
+                R.Denominator = 1;
+                return R;
             }
 
             // 
@@ -1238,7 +1216,7 @@ namespace JPGRawFotoSelector
             // 
             public void SetPropertyString(Int32 PID, string Value)
             {
-                byte[] Data = this._Encoding.GetBytes(Value + '\0');
+                byte[] Data = _Encoding.GetBytes(Value + '\0');
                 SetProperty(PID, Data, ExifDataTypes.AsciiString);
             }
 
@@ -1291,12 +1269,12 @@ namespace JPGRawFotoSelector
             // 
             public void SetProperty(Int32 PID, byte[] Data, ExifDataTypes Type)
             {
-                System.Drawing.Imaging.PropertyItem P = this._Image.PropertyItems[0];
+                PropertyItem P = _Image.PropertyItems[0];
                 P.Id = PID;
                 P.Value = Data;
                 P.Type = (Int16)Type;
                 P.Len = Data.Length;
-                this._Image.SetPropertyItem(P);
+                _Image.SetPropertyItem(P);
             }
 
             // 
@@ -1347,7 +1325,7 @@ namespace JPGRawFotoSelector
             // 
             private string GetString(byte[] B)
             {
-                string R = this._Encoding.GetString(B);
+                string R = _Encoding.GetString(B);
                 if (R.EndsWith("\0"))
                     R = R.Substring(0, R.Length - 1);
                 return R;
@@ -1370,8 +1348,8 @@ namespace JPGRawFotoSelector
                 byte[] D = new byte[4];
                 Array.Copy(B, 0, N, 0, 4);
                 Array.Copy(B, 4, D, 0, 4);
-                R.Denominator = this.GetInt32(D);
-                R.Numerator = this.GetInt32(N);
+                R.Denominator = GetInt32(D);
+                R.Numerator = GetInt32(N);
                 return R;
             }
 
@@ -1388,7 +1366,7 @@ namespace JPGRawFotoSelector
 // 
 public void Dispose()
             {
-                this._Image.Dispose();
+                _Image.Dispose();
             }
 
             #endregion

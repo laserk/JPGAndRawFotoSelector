@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JPGRawFotoSelector;
 namespace MTestJPGAndRawFotoSelector
 {
@@ -13,6 +12,14 @@ namespace MTestJPGAndRawFotoSelector
             var settings = JPGRawFotoSelectorSettings.GetSettings(file);
             Assert.IsNotNull(settings);
             Assert.AreEqual(2,settings.Cameras.Length);
+        }
+
+        [TestMethod]
+        public void testEXIFManager()
+        {
+            var exif = new ExifManager(@"F:\FotoOutput\_DSC4696.ARW");
+            Assert.IsNotNull(exif);
+            exif.Dispose();
         }
     }
 }

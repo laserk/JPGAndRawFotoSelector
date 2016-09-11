@@ -21,7 +21,7 @@ namespace JPGRawFotoSelector
                 return;
             InitialCameraList();
             InitialToolStripStatusLabel();
-            ListViewHelper.InitialListView(FileCleanList);
+            //ListViewHelper.InitialListView(ref FileCleanList);
             InitializeCheckBoxes();
         }
 
@@ -91,13 +91,26 @@ namespace JPGRawFotoSelector
                 var fileListJpg = Directory.EnumerateFiles(_path, "*." + strJpg, SearchOption.TopDirectoryOnly);
 
                 var fileListRaw = Directory.EnumerateFiles(_path, "*." + strRaw, SearchOption.TopDirectoryOnly);
+                IEnumerable<string> fileList;
+                bool isSimpleHeader;
                 if (!jpgModeCheckBox.Checked)
                     if (baseOnJpgCheckBox.Checked)
-                        ListViewHelper.FillListBaseOnReference(ref FileCleanList,strJpg, strRaw, fileListJpg, fileListRaw);
+                    {
+                        isSimpleHeader = true;
+                        fileList = ListViewHelper.FillListBaseOnReference(strJpg, strRaw, fileListJpg, fileListRaw);
+                    }
                     else
-                        ListViewHelper.FillListBaseOnReference(ref FileCleanList, strRaw,strJpg , fileListRaw, fileListJpg);
+                    {
+                        fileList = ListViewHelper.FillListBaseOnReference(strRaw, strJpg, fileListRaw, fileListJpg);
+                        isSimpleHeader = false;
+                    }
                 else
-                    ListViewHelper.FillListBaseOnReference(ref FileCleanList, strRaw, strJpg, new List<string>(), fileListJpg);
+                {
+                    fileList = ListViewHelper.FillListBaseOnReference(strRaw, strJpg, new List<string>(), fileListJpg);
+                    isSimpleHeader = false;
+                }
+                ListViewHelper.FillCleanList(ref FileCleanList, fileList, isSimpleHeader);
+                ListViewHelper.AutoResizeColumnWidth(ref FileCleanList);
             }
             catch (Exception exception)
             {
