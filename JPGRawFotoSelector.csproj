@@ -73,6 +73,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="JPGRawFotoSelectorSettings.cs" />
+    <Compile Include="LimitedTaskScheduler.cs" />
     <Compile Include="ListViewHelper.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

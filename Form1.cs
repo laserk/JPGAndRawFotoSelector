@@ -73,6 +73,7 @@ namespace JPGRawFotoSelector
                     return;
                 textPath.Text = folderBrowserDialog1.SelectedPath;
                 _path = folderBrowserDialog1.SelectedPath;
+                ListViewHelper.ClearExifList();
             }
             if (!StartDetecteFiles()) return;
             toolStripStatusLabel1.Text = "Total:" + FileCleanList.Items.Count + " files to Select";
@@ -82,6 +83,8 @@ namespace JPGRawFotoSelector
         {
             if(string.IsNullOrEmpty(_path))
                 return false;
+            toolStripProgressBar1.Visible = true;
+            toolStripProgressBar1.Value = 0;
             var strJpg = textBoxJPG.Text.Trim();
             var strRaw = textBoxRAW.Text.Trim();
             //InitialToolStripStatusLabel();
@@ -110,7 +113,11 @@ namespace JPGRawFotoSelector
                     isSimpleHeader = false;
                 }
                 ListViewHelper.FillCleanList(ref FileCleanList, fileList, isSimpleHeader);
+
                 ListViewHelper.AutoResizeColumnWidth(ref FileCleanList);
+                toolStripProgressBar1.Value = 100;
+                toolStripProgressBar1.Visible = false;
+
             }
             catch (Exception exception)
             {
@@ -228,6 +235,7 @@ namespace JPGRawFotoSelector
             selectAllCheckBox.Checked = false;
             SelectAllSelected();
         }
+
         private void SelectAllSelected()
         {
             selectAllCheckBox.Text = selectAllCheckBox.Checked ? Resources.UnSelect_All : Resources.Select_All;
@@ -238,5 +246,6 @@ namespace JPGRawFotoSelector
             else
                 FileCleanList.SelectedItems.Clear();
         }
+
     }
 }

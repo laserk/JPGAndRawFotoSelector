@@ -1,16 +1,26 @@
 using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using JPGRawFotoSelector;
 using JPGRawFotoSelector.Properties;
 
 internal static class ListViewHelper
 {
-
+    static ConcurrentDictionary<string,ListViewItem> _exifInfoList = new ConcurrentDictionary<string,ListViewItem>();
+    private static int intProgress;
+    public static void ClearExifList()
+    {
+        _exifInfoList.Clear();
+    }
     public static void AutoResizeColumnWidth(ref ListView lv)
 
     {
@@ -159,7 +169,8 @@ internal static class ListViewHelper
 
     public static void FillCleanList(ref ListView fileCleanList, IEnumerable<string> fileList,bool isSimpleHeader)
     {
-        if(fileList==null)
+        intProgress = 0;
+        if (fileList==null)
             return;
         fileCleanList.BeginUpdate();
         if (isSimpleHeader)
@@ -174,30 +185,52 @@ internal static class ListViewHelper
         else
         {
             ComplexHeader(ref fileCleanList);
-            foreach (var file in fileList)
+            GetExifList(fileList);
+            foreach (var lvi in _exifInfoList.Values)
             {
-                try
-                {
-                    using (ExifManager exif = new ExifManager(file))
-                    {
-                        ListViewItem lvi = new ListViewItem{Text = file};
-                        lvi.SubItems.Add(exif.DateTimeOriginal.ToString("{MM/dd/yy H:mm:ss zzz}"));
-                        lvi.SubItems.Add(exif.Aperture.ToString());
-                        lvi.SubItems.Add(exif.ExposureTime.ToString());
-                        lvi.SubItems.Add(exif.ISO.ToString());
-                        lvi.SubItems.Add(exif.Orientation.ToString());
-                        fileCleanList.Items.Add(lvi);
-                        exif.Dispose();
-                    }
-                }
-                catch 
-                {
-                    continue;
-                }
+                fileCleanList.Items.Add(lvi);
             }
         }
 
         fileCleanList.EndUpdate();
+        intProgress = 100;
+    }
+
+    private static void GetExifList(IEnumerable<string> fileList)
+    {
+        int processors = Environment.ProcessorCount;
+        int maxTasks = (fileList.Count()>10) ? processors * 2 : 1;
+        var fatrory= new TaskFactory(new LimitedTaskScheduler(maxTasks));
+        var tasks = fileList.Select(file => fatrory.StartNew(Handle, file));
+        Task.WaitAll(tasks.ToArray());
+    }
+
+    private static void Handle (object state)
+    {
+        try
+        {
+            var file = state.ToString();
+            if(!_exifInfoList.Keys.Contains(file))
+            using (ExifManager exif = new ExifManager(file))
+            {
+                ListViewItem lvi = new ListViewItem { Text = file };
+                lvi.SubItems.Add(exif.DateTimeOriginal.ToString("MM/dd/yy H:mm:ss zzz"));
+                lvi.SubItems.Add(exif.Aperture.ToString());
+                lvi.SubItems.Add(exif.ExposureTime.ToString());
+                lvi.SubItems.Add(exif.ISO.ToString());
+                lvi.SubItems.Add(exif.Orientation.ToString());
+                lock (lvi)
+                {
+                    _exifInfoList.TryAdd(lvi.Text, lvi);
+                }
+
+                exif.Dispose();
+            }
+        }
+        catch (Exception e)
+        {
+            Trace.WriteLine(e.ToString());
+        }
     }
 
     public static void SelectAllFiles(ref ListView fileCleanList)
