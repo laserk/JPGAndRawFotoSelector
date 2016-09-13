@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
 using System.Threading;
 using System.Windows.Forms;
 using JPGRawFotoSelector.Properties;
@@ -15,22 +13,21 @@ namespace JPGRawFotoSelector
         string _path;
         DefaultSetting _defaultSetting;
         delegate void ProgressDelegate(int progress);
-        string strDefaultFileList = Resources.SelectFileToDelete;
         public FotoSelectorMainWindow()
         {
             InitializeComponent();
-            if(!InitialSettings())
+            if (!InitialSettings())
                 return;
             InitialCameraList();
-            StatusBarHelper.InitialToolStripStatusLabel(ref toolStripStatusLabel1, strDefaultFileList);
+            StatusBarHelper.InitialToolStripStatusLabel(ref toolStripStatusLabel1);
             InitializeCheckBoxes();
             InitializeToolStripProgressBar();
         }
 
         private void InitializeToolStripProgressBar()
         {
-            toolStripProgressBar1.Visible = false;
-            toolStripProgressBar1.Maximum = 100;
+            progressBar1.Visible = false;
+            progressBar1.Maximum = 100;
             ListViewHelper.ProgressChanged += OnProgressChanged;
         }
 
@@ -55,7 +52,7 @@ namespace JPGRawFotoSelector
         private void InitialCameraList()
         {
             foreach (var item in _defaultSetting.Cameras)
-                cobCamera.Items.Add(item.CameraName) ;
+                cobCamera.Items.Add(item.CameraName);
             cobCamera.SelectedIndex = 0;
         }
 
@@ -78,54 +75,41 @@ namespace JPGRawFotoSelector
                 ListViewHelper.ClearExifList();
             }
             if (!StartDetecteFiles()) return;
-            StatusBarHelper.SetFileDetectionResult(ref toolStripStatusLabel1,FileCleanList.Items.Count);
+         
         }
 
         public void SetProgress(int progress)
-
         {
             if (this.InvokeRequired)
-
             {
                 ProgressDelegate d = new ProgressDelegate(SetProgress);
                 this.Invoke(d, new object[] { progress });
             }
             else
-            {
-                this.toolStripProgressBar1.Value = progress;
-            }
-
+                this.progressBar1.Value = progress;
         }
 
-    
-
-
-    void OnProgressChanged(object sender, ProgressChangedArgs args)
+        void OnProgressChanged(object sender, ProgressChangedArgs args)
         {
             if (args.TotalProcess > 0 & args.TotalProcess < 0.11)
-            {
                 SetProgress(10);
-            }
 
             if (args.TotalProcess > 0.1 & args.TotalProcess < 1)
                 if (args.TotalFileCount > 0)
                 {
-                    int temp = (int) (((double) args.ProcessedFiles/(double) args.TotalFileCount*80));
+                    int temp = (int)(((double)args.ProcessedFiles / (double)args.TotalFileCount * 80));
                     SetProgress(10 + temp);
-                
                 }
-            if (args.TotalProcess > 0.9 )
-            {
+            if (args.TotalProcess > 0.9)
                 SetProgress(100);
-            }
             Thread.Sleep(25);
         }
         bool StartDetecteFiles()
         {
-            if(string.IsNullOrEmpty(_path))
+            if (string.IsNullOrEmpty(_path))
                 return false;
-            toolStripProgressBar1.Visible = true;
-            toolStripProgressBar1.Value = 0;
+            progressBar1.Visible = true;
+            progressBar1.Value = 0;
             var strJpg = textBoxJPG.Text.Trim();
             var strRaw = textBoxRAW.Text.Trim();
 
@@ -142,22 +126,25 @@ namespace JPGRawFotoSelector
                     {
                         isSimpleHeader = true;
                         fileList = ListViewHelper.FillListBaseOnReference(strJpg, strRaw, fileListJpg, fileListRaw);
+                        StatusBarHelper.SetFileDetectionResult(ref toolStripStatusLabel1,fileList==null?0:fileList.Count(),false);
                     }
                     else
                     {
-                        fileList = ListViewHelper.FillListBaseOnReference(strRaw, strJpg, fileListRaw, fileListJpg);
                         isSimpleHeader = false;
+                        fileList = ListViewHelper.FillListBaseOnReference(strRaw, strJpg, fileListRaw, fileListJpg);
+                        StatusBarHelper.SetFileDetectionResult(ref toolStripStatusLabel1, fileList == null ? 0 : fileList.Count(), false);
                     }
                 else
                 {
-                    fileList = ListViewHelper.FillListBaseOnReference(strRaw, strJpg, new List<string>(), fileListJpg);
                     isSimpleHeader = false;
+                    fileList = ListViewHelper.FillListBaseOnReference(strRaw, strJpg, new List<string>(), fileListJpg);
+                    StatusBarHelper.SetFileDetectionResult(ref toolStripStatusLabel1, fileList == null ? 0 : fileList.Count(), true);
                 }
                 ListViewHelper.FillCleanList(ref FileCleanList, fileList, isSimpleHeader);
 
                 ListViewHelper.AutoResizeColumnWidth(ref FileCleanList);
-                toolStripProgressBar1.Value = 100;
-                toolStripProgressBar1.Visible = false;
+                progressBar1.Value = 100;
+                progressBar1.Visible = false;
 
             }
             catch (Exception exception)
@@ -171,7 +158,7 @@ namespace JPGRawFotoSelector
         void cleanButton_Click(object sender, EventArgs e)
         {
             var removeList = new List<int>();
-             string destPath = _path + "\\"+_defaultSetting.DeleteFolderName+"\\";
+            string destPath = _path + "\\" + _defaultSetting.DeleteFolderName + "\\";
             CheckDeleteFolder(destPath);
             int totalRemove = FileCleanList.SelectedItems.Count;
 
@@ -192,7 +179,7 @@ namespace JPGRawFotoSelector
                 }
             }
             ListViewHelper.RemoveDeletedItems(ref FileCleanList, removeList);
-            StatusBarHelper.SetRemovedMessage(ref toolStripStatusLabel1, totalRemove,FileCleanList.Items.Count);
+            StatusBarHelper.SetRemovedMessage(ref toolStripStatusLabel1, totalRemove, FileCleanList.Items.Count);
         }
 
         static void CheckDeleteFolder(string destPath)
@@ -249,8 +236,8 @@ namespace JPGRawFotoSelector
         {
             viewButton.Enabled = jpgModeCheckBox.Checked;
             selectAllCheckBox.Enabled = cleanButton.Enabled = !jpgModeCheckBox.Checked;
-            StatusBarHelper.SetModeName(ref toolStripStatusLabel1,jpgModeCheckBox.Checked);
-            FileCleanList.MultiSelect = !jpgModeCheckBox.Checked ;
+            StatusBarHelper.SetModeName(ref lblModelLabel, jpgModeCheckBox.Checked);
+            FileCleanList.MultiSelect = !jpgModeCheckBox.Checked;
             ReSetSelectAll();
             ReFreshUi();
         }

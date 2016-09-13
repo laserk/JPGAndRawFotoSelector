@@ -1,17 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Threading;
+using System.Text;
 using System.Windows.Forms;
-using JPGRawFotoSelector;
 using JPGRawFotoSelector.Properties;
 
 static internal class StatusBarHelper
 {
-    public static void InitialToolStripStatusLabel(ref ToolStripStatusLabel toolStripStatusLabel1,string strDefaultFileList)
+    public static void InitialToolStripStatusLabel(ref ToolStripStatusLabel toolStripStatusLabel1)
     {
-        toolStripStatusLabel1.Text = strDefaultFileList;
+        toolStripStatusLabel1.Text = Resources.SelectFileToDelete;
         toolStripStatusLabel1.ForeColor = Color.Black;
     }
 
@@ -21,20 +18,26 @@ static internal class StatusBarHelper
         toolStripStatusLabel1.ForeColor = Color.Red;
     }
 
-    public static void SetRemovedMessage(ref ToolStripStatusLabel toolStripStatusLabel1, int totalRemove,int fileCleaned)
+    public static void SetRemovedMessage(ref ToolStripStatusLabel toolStripStatusLabel1, int totalRemove,
+        int fileCleaned)
     {
-        toolStripStatusLabel1.Text = "TotalFileCount:" + totalRemove + " files be removed, remain:" + fileCleaned + " files to Select";
+        toolStripStatusLabel1.Text = "TotalFileCount:" + totalRemove + " files be removed, remain:" + fileCleaned +
+                                     " files to Select";
         toolStripStatusLabel1.ForeColor = Color.Blue;
     }
 
-    public static void SetModeName(ref ToolStripStatusLabel toolStripStatusLabel1,bool isJpgModeChecked)
+    public static void SetModeName(ref Label lblModelLabel, bool isJpgModeChecked)
     {
-        toolStripStatusLabel1.Text = isJpgModeChecked ? Resources.ViewMode : Resources.CleanMode;
-        toolStripStatusLabel1.ForeColor = Color.Green;
+        lblModelLabel.Text = isJpgModeChecked ? Resources.ViewMode : Resources.CleanMode;
     }
 
-    public static void SetFileDetectionResult(ref ToolStripStatusLabel toolStripStatusLabel1, int fileCleanListCount)
+    public static void SetFileDetectionResult(ref ToolStripStatusLabel toolStripStatusLabel1, int fileCleanListCount,bool isViewMode)
     {
-        toolStripStatusLabel1.Text = "TotalFileCount:" + fileCleanListCount + " files to Select";
+        StringBuilder sbText = new StringBuilder("Detected :");
+        if (isViewMode)
+            toolStripStatusLabel1.Text = sbText .Append( fileCleanListCount + " JPG files, select on and double click  to view").ToString();
+        else
+            toolStripStatusLabel1.Text = sbText.Append(fileCleanListCount + " files do not have reference file which can be cleaned").ToString();
+        toolStripStatusLabel1.ForeColor = Color.Black;
     }
 }
