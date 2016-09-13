@@ -76,6 +76,7 @@
     <Compile Include="LimitedTaskScheduler.cs" />
     <Compile Include="ListViewHelper.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="StatusBarHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

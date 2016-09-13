@@ -22,12 +22,15 @@ namespace JPGRawFotoSelector
             if(!InitialSettings())
                 return;
             InitialCameraList();
-            InitialToolStripStatusLabel();
-            //ListViewHelper.InitialListView(ref FileCleanList);
+            StatusBarHelper.InitialToolStripStatusLabel(ref toolStripStatusLabel1, strDefaultFileList);
             InitializeCheckBoxes();
+            InitializeToolStripProgressBar();
+        }
+
+        private void InitializeToolStripProgressBar()
+        {
             toolStripProgressBar1.Visible = false;
             toolStripProgressBar1.Maximum = 100;
-          
             ListViewHelper.ProgressChanged += OnProgressChanged;
         }
 
@@ -47,12 +50,6 @@ namespace JPGRawFotoSelector
             baseOnJpgCheckBox.Checked = _defaultSetting.CheckJPG;
             jpgModeCheckBox.Checked = _defaultSetting.JPGView;
             selectAllCheckBox.Checked = _defaultSetting.SelectAll;
-        }
-
-        private void InitialToolStripStatusLabel()
-        {
-            toolStripStatusLabel1.Text = strDefaultFileList;
-            toolStripStatusLabel1.ForeColor = Color.Black;
         }
 
         private void InitialCameraList()
@@ -110,8 +107,6 @@ namespace JPGRawFotoSelector
             if (args.TotalProcess > 0 & args.TotalProcess < 0.11)
             {
                 SetProgress(10);
-                //toolStripProgressBar1.Value = 10;
-                //Application.DoEvents();
             }
 
             if (args.TotalProcess > 0.1 & args.TotalProcess < 1)
@@ -135,7 +130,7 @@ namespace JPGRawFotoSelector
             toolStripProgressBar1.Value = 0;
             var strJpg = textBoxJPG.Text.Trim();
             var strRaw = textBoxRAW.Text.Trim();
-            //InitialToolStripStatusLabel();
+
             FileCleanList.Items.Clear();
             try
             {
@@ -169,16 +164,10 @@ namespace JPGRawFotoSelector
             }
             catch (Exception exception)
             {
-                SetErrorMessage(exception);
+                StatusBarHelper.SetErrorMessage(ref toolStripStatusLabel1, exception);
                 return false;
             }
             return true;
-        }
-
-        private void SetErrorMessage(Exception exception)
-        {
-            toolStripStatusLabel1.Text = exception.Message;
-            toolStripStatusLabel1.ForeColor = Color.Red;
         }
 
         void cleanButton_Click(object sender, EventArgs e)
@@ -200,13 +189,12 @@ namespace JPGRawFotoSelector
                 }
                 catch (Exception exception)
                 {
-                    SetErrorMessage(exception);
+                    StatusBarHelper.SetErrorMessage(ref toolStripStatusLabel1, exception);
                     return;
                 }
             }
             ListViewHelper.RemoveDeletedItems(ref FileCleanList, removeList);
-            toolStripStatusLabel1.Text = "TotalFileCount:" + totalRemove + " files be removed, remain:" + FileCleanList.Items.Count + " files to Select";
-            toolStripStatusLabel1.ForeColor = Color.Blue;
+            StatusBarHelper.SetRemovedMessage(ref toolStripStatusLabel1, totalRemove,FileCleanList.Items.Count);
         }
 
         static void CheckDeleteFolder(string destPath)
