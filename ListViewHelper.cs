@@ -13,10 +13,16 @@ using System.Windows.Forms;
 using JPGRawFotoSelector;
 using JPGRawFotoSelector.Properties;
 
+public class ProgressChangedArgs : EventArgs
+{
+    public double TotalProcess;
+    public int TotalFileCount;
+    public int ProcessedFiles;
+}
 internal static class ListViewHelper
 {
     static ConcurrentDictionary<string,ListViewItem> _exifInfoList = new ConcurrentDictionary<string,ListViewItem>();
-    private static int intProgress;
+    public static event EventHandler<ProgressChangedArgs> ProgressChanged;
     public static void ClearExifList()
     {
         _exifInfoList.Clear();
@@ -169,9 +175,10 @@ internal static class ListViewHelper
 
     public static void FillCleanList(ref ListView fileCleanList, IEnumerable<string> fileList,bool isSimpleHeader)
     {
-        intProgress = 0;
+
         if (fileList==null)
             return;
+        ProgressChanged(new object(), new ProgressChangedArgs() { TotalProcess = 0.1, ProcessedFiles = 0, TotalFileCount = 0 });
         fileCleanList.BeginUpdate();
         if (isSimpleHeader)
         {
@@ -193,16 +200,23 @@ internal static class ListViewHelper
         }
 
         fileCleanList.EndUpdate();
-        intProgress = 100;
+        ProgressChanged(new object(), new ProgressChangedArgs() { TotalProcess = 1, ProcessedFiles = 0, TotalFileCount = 0 });
     }
 
     private static void GetExifList(IEnumerable<string> fileList)
     {
         int processors = Environment.ProcessorCount;
-        int maxTasks = (fileList.Count()>10) ? processors * 2 : 1;
+        int fileCount = fileList.Count();
+        int processedFile = 0;
+        int maxTasks = (fileCount > 10) ? processors * 2 : 1;
         var fatrory= new TaskFactory(new LimitedTaskScheduler(maxTasks));
-        var tasks = fileList.Select(file => fatrory.StartNew(Handle, file));
+        var tasks = fileList.Select(file => {
+             Interlocked.Increment(ref processedFile);
+             ProgressChanged(new object(), new ProgressChangedArgs() {TotalProcess = 0.9,ProcessedFiles = processedFile, TotalFileCount = fileCount });
+             return fatrory.StartNew(Handle, file);
+        } );
         Task.WaitAll(tasks.ToArray());
+        ProgressChanged(new object(), new ProgressChangedArgs() { TotalProcess = 0.9,ProcessedFiles = fileCount, TotalFileCount = fileCount });
     }
 
     private static void Handle (object state)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
+using System.Threading;
 using System.Windows.Forms;
 using JPGRawFotoSelector.Properties;
 
@@ -12,7 +14,7 @@ namespace JPGRawFotoSelector
     {
         string _path;
         DefaultSetting _defaultSetting;
-
+        delegate void ProgressDelegate(int progress);
         string strDefaultFileList = Resources.SelectFileToDelete;
         public FotoSelectorMainWindow()
         {
@@ -23,6 +25,10 @@ namespace JPGRawFotoSelector
             InitialToolStripStatusLabel();
             //ListViewHelper.InitialListView(ref FileCleanList);
             InitializeCheckBoxes();
+            toolStripProgressBar1.Visible = false;
+            toolStripProgressBar1.Maximum = 100;
+          
+            ListViewHelper.ProgressChanged += OnProgressChanged;
         }
 
         private bool InitialSettings()
@@ -76,9 +82,51 @@ namespace JPGRawFotoSelector
                 ListViewHelper.ClearExifList();
             }
             if (!StartDetecteFiles()) return;
-            toolStripStatusLabel1.Text = "Total:" + FileCleanList.Items.Count + " files to Select";
+            toolStripStatusLabel1.Text = "TotalFileCount:" + FileCleanList.Items.Count + " files to Select";
         }
 
+
+        public void SetProgress(int progress)
+
+        {
+            if (this.InvokeRequired)
+
+            {
+                ProgressDelegate d = new ProgressDelegate(SetProgress);
+                this.Invoke(d, new object[] { progress });
+            }
+            else
+            {
+                this.toolStripProgressBar1.Value = progress;
+            }
+
+        }
+
+    
+
+
+    void OnProgressChanged(object sender, ProgressChangedArgs args)
+        {
+            if (args.TotalProcess > 0 & args.TotalProcess < 0.11)
+            {
+                SetProgress(10);
+                //toolStripProgressBar1.Value = 10;
+                //Application.DoEvents();
+            }
+
+            if (args.TotalProcess > 0.1 & args.TotalProcess < 1)
+                if (args.TotalFileCount > 0)
+                {
+                    int temp = (int) (((double) args.ProcessedFiles/(double) args.TotalFileCount*80));
+                    SetProgress(10 + temp);
+                
+                }
+            if (args.TotalProcess > 0.9 )
+            {
+                SetProgress(100);
+            }
+            Thread.Sleep(25);
+        }
         bool StartDetecteFiles()
         {
             if(string.IsNullOrEmpty(_path))
@@ -157,7 +205,7 @@ namespace JPGRawFotoSelector
                 }
             }
             ListViewHelper.RemoveDeletedItems(ref FileCleanList, removeList);
-            toolStripStatusLabel1.Text = "Total:" + totalRemove + " files be removed, remain:" + FileCleanList.Items.Count + " files to Select";
+            toolStripStatusLabel1.Text = "TotalFileCount:" + totalRemove + " files be removed, remain:" + FileCleanList.Items.Count + " files to Select";
             toolStripStatusLabel1.ForeColor = Color.Blue;
         }
 
