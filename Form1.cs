@@ -69,7 +69,6 @@ namespace JPGRawFotoSelector
         {
             _path = textPath.Text.Trim();
             if (string.IsNullOrEmpty(_path))
-                //if (Directory.Exists(_path))
             {
                 folderBrowserDialog1.SelectedPath = _defaultSetting.DetectFolder;
                 if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
@@ -79,9 +78,8 @@ namespace JPGRawFotoSelector
                 ListViewHelper.ClearExifList();
             }
             if (!StartDetecteFiles()) return;
-            toolStripStatusLabel1.Text = "TotalFileCount:" + FileCleanList.Items.Count + " files to Select";
+            StatusBarHelper.SetFileDetectionResult(ref toolStripStatusLabel1,FileCleanList.Items.Count);
         }
-
 
         public void SetProgress(int progress)
 
@@ -251,8 +249,7 @@ namespace JPGRawFotoSelector
         {
             viewButton.Enabled = jpgModeCheckBox.Checked;
             selectAllCheckBox.Enabled = cleanButton.Enabled = !jpgModeCheckBox.Checked;
-            toolStripStatusLabel1.Text = jpgModeCheckBox.Checked ? Resources.ViewMode : Resources.CleanMode;
-            toolStripStatusLabel1.ForeColor = Color.Green;
+            StatusBarHelper.SetModeName(ref toolStripStatusLabel1,jpgModeCheckBox.Checked);
             FileCleanList.MultiSelect = !jpgModeCheckBox.Checked ;
             ReSetSelectAll();
             ReFreshUi();

@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using JPGRawFotoSelector;
+using JPGRawFotoSelector.Properties;
 
 static internal class StatusBarHelper
 {
@@ -24,5 +25,16 @@ static internal class StatusBarHelper
     {
         toolStripStatusLabel1.Text = "TotalFileCount:" + totalRemove + " files be removed, remain:" + fileCleaned + " files to Select";
         toolStripStatusLabel1.ForeColor = Color.Blue;
+    }
+
+    public static void SetModeName(ref ToolStripStatusLabel toolStripStatusLabel1,bool isJpgModeChecked)
+    {
+        toolStripStatusLabel1.Text = isJpgModeChecked ? Resources.ViewMode : Resources.CleanMode;
+        toolStripStatusLabel1.ForeColor = Color.Green;
+    }
+
+    public static void SetFileDetectionResult(ref ToolStripStatusLabel toolStripStatusLabel1, int fileCleanListCount)
+    {
+        toolStripStatusLabel1.Text = "TotalFileCount:" + fileCleanListCount + " files to Select";
     }
 }
