@@ -252,11 +252,11 @@ internal static class ListViewHelper
         }
     }
 
-    public static void RemoveDeletedItems(ref ListView fileCleanList, List<int> removeList)
+    public static void RemoveDeletedItems(ref ListView fileCleanList, List<ListViewItem> removeList)
     {
         fileCleanList.BeginUpdate();
         foreach (var removefile in removeList)
-            fileCleanList.Items.RemoveAt(removefile);
+            fileCleanList.Items.Remove(removefile);
         fileCleanList.EndUpdate();
     }
 }

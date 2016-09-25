@@ -157,7 +157,7 @@ namespace JPGRawFotoSelector
 
         void cleanButton_Click(object sender, EventArgs e)
         {
-            var removeList = new List<int>();
+            var removeList = new List<ListViewItem>();
             string destPath = _path + "\\" + _defaultSetting.DeleteFolderName + "\\";
             CheckDeleteFolder(destPath);
             int totalRemove = FileCleanList.SelectedItems.Count;
@@ -170,7 +170,7 @@ namespace JPGRawFotoSelector
                 try
                 {
                     File.Move(sourcePath, destPath + fInfo.Name);
-                    removeList.Add(file.Index);
+                    removeList.Add(file);
                 }
                 catch (Exception exception)
                 {
